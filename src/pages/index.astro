@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout
+  title="Travis Campbell"
+  description="Personal blog by Travis Campbell — notes on building, thinking, and shipping."
+>
+  <div class="container">
+    <section class="hero">
+      <p class="hero-eyebrow">Travis Campbell</p>
+      <h1 class="hero-title">Writing</h1>
+      <p class="hero-subtitle">Notes on building things, shipping fast, and figuring it out as I go.</p>
+    </section>
+
+    <section>
+      <p class="posts-section-label">All Posts</p>
+      {posts.length === 0 ? (
+        <p style="color: var(--color-text-muted); font-style: italic;">No posts yet. Check back soon.</p>
+      ) : (
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li class="post-item">
+              <a href={`/posts/${post.slug}`}>
+                <div>
+                  <div class="post-item-title">{post.data.title}</div>
+                  {post.data.description && (
+                    <div class="post-item-description">{post.data.description}</div>
+                  )}
+                </div>
+                <div class="post-item-date">{formatDate(post.data.pubDate)}</div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </div>
+</BaseLayout>
