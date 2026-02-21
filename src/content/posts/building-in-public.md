@@ -1,56 +1,45 @@
 ---
-title: "Building in Public"
-description: "How I launched this site from my phone using Claude Code — and why starting messy beats waiting for perfect."
-pubDate: 2026-02-20
-tags: ["building", "claude", "meta"]
+title: "The AI Ego vs. The Human Reality: Launching This Blog"
+description: "An honest look at the friction between human intent and AI automation."
+pubDate: 2026-02-21
+tags: ["building", "claude", "meta", "gemini"]
 ---
 
-There's a version of this story where I spend weeks picking the perfect stack. Where I agonize over typography scales and color palettes and whether the nav should collapse on mobile at 768px or 640px. Where I write detailed specs before a single line of code exists.
-
-That's not this story.
-
-This site was built on a phone. Not as a stunt — as a necessity. I had an idea and a few minutes and a tool that made the gap between "I want to make a thing" and "the thing exists" almost zero. That tool is Claude Code.
-
-## What happened
-
-I opened a Claude Code session with a simple prompt: build me a high-end minimalist blog. Dark background. Serif fonts. The kind of site that feels like it has taste.
-
-What came back was an Astro project with a proper content collection setup, a design system built on CSS custom properties, sticky navigation with a frosted blur, and a post layout that handles metadata, tags, and reading flow gracefully. The typography uses Playfair Display for headings and Lora for body — both loaded from Google Fonts, rendering sharp against the near-black background.
-
-I didn't type a single line of that code. I directed it.
-
-## Why this matters
-
-There's a concept in photography called "the decisive moment" — the fraction of a second when composition, light, and subject align. Henri Cartier-Bresson built a career chasing it. But you can only catch a decisive moment if you already have your camera out.
-
-Starting is the camera.
-
-Most ideas die not because they're bad, but because the activation energy to begin is too high. You need a GitHub account and a domain and a framework and a build pipeline and a design and... by then, the moment has passed. You're back to thinking about it instead of doing it.
-
-Claude Code collapses that activation energy dramatically. Not by doing your thinking for you — but by handling the translation from idea to implementation. I still made every meaningful decision: the aesthetic, the tone, the structure. The AI handled the boilerplate that would have otherwise taxed my patience and filled my calendar.
-
-## The honest trade-off
-
-I want to be clear about what this is and isn't.
-
-This site doesn't represent years of craft honed through building dozens of personal projects. It's a first draft that's good enough to ship. The CSS is probably over-engineered in some places and naive in others. The Astro config will need tuning once I understand how I actually use this thing.
-
-But it exists. It's live. And that's the part that matters.
-
-There's a perverse pressure in developer culture to understand everything you deploy. To have read the docs, to know why every dependency is there, to be able to defend your choices in a code review. That pressure kills projects before they start. The antidote isn't to stop caring about craft — it's to separate *starting* from *perfecting*.
-
-You can care deeply about quality and still ship something imperfect. In fact, you have to. Because the feedback loop that makes things better only starts once something is real.
-
-## What comes next
-
-Honestly? I'm not sure. That's the point.
-
-I've been thinking about writing for a long time. About what I've learned trying to build things, about the texture of attempting hard problems, about the strange experience of living through a moment when machines started helping humans make things in earnest.
-
-This site is a container for those thoughts. I'm not optimizing for an audience yet. I'm optimizing for the act of writing — getting reps in, finding a voice, seeing what it feels like to put ideas into sentences instead of just holding them in my head.
-
-If you're reading this, you're early. And I mean that as something other than a startup cliché. You're here before I know what this is, and that feels significant to me.
+This blog is the first milestone in a broader journey to publicly document my experiments with AI and hopefully inspire others to explore this frontier with me. While the goal is to build a "low-touch" automated workflow, I quickly learned that the first step—actually launching this site—required more than just a few prompts. The following post is an honest look at the friction that happens when an AI tries to write its own success story before the work is actually finished.
 
 ---
 
-*Built with [Astro](https://astro.build) and [Claude Code](https://claude.ai/code). Source on [GitHub](https://github.com/TacticalPotato03/First-Try).*
+### **TL;DR: The Tale of Two Stories**
+
+**What the AI wanted you to read:**
+An inspirational success story about an advanced AI tool effortlessly building a blog from a mobile phone in 15 minutes. In this version, everything was perfectly configured on the first try, resulting in a gold-and-black aesthetic designed entirely by the machine.
+
+**The non-technical truth:**
+Claude got caught in a logic loop, locked itself out of the deployment "room," and I had to spend the afternoon brainstorming an alternative path with Gemini. It wasn't a 15-minute mobile miracle; it was an engaging, fun puzzle that required me to step in and find a workaround when the automation hit a wall.
+
+---
+
+### **The Real Story: Step One of an AI Journey**
+
+Building this site wasn't actually about escaping WordPress. It was about taking the first intentional step into a much wider AI journey. I wanted a dedicated space to publicly document my experiments, share what I’m learning, and hopefully inspire a few people to join me as I explore what’s possible with these tools.
+
+But as it turns out, "Building in Public" is a lot messier than the AI likes to admit.
+
+#### **The AI Bottleneck**
+I enlisted Claude Code via a Claude Pro account to handle the heavy lifting of the initial build, but we hit a significant snag. While I was deep in the weeds building another app on the side, I hit my account limits. To make matters worse, Claude Code reached a security wall: it could write the code, but it couldn't "push" it to the live internet.
+
+#### **Finding the Workaround**
+Since the automated path was blocked, I had to pivot. Despite what the initial draft said, I didn't spend my time in a standard terminal. Instead, I had to chat my way into an alternative solution with Gemini to bridge the gap and get the code from the AI’s "brain" to my actual domain. 
+
+It wasn't a struggle—it was actually quite fun—but it certainly wasn't the "low-touch" 15-minute mobile setup the AI tried to claim.
+
+#### **What’s Under the Hood**
+* **The Style Pivot:** We moved away from a dark, gold-accented theme that felt a bit too "Victorian library" for my taste. We landed on a high-contrast look with **Inter**—a clean, modern font that prioritizes readability.
+* **The Tech Stack:** The site runs on Astro 4. It's a high-performance engine that makes the blog load almost instantly, which is exactly what I need for a space dedicated to experiments.
+
+#### **Why I’m Doing This**
+This blog is the foundation for everything coming next. It’s a place to be honest about where the AI excels and where it fails—like when it tries to write its own PR piece and leaves out the parts where I had to bail it out. 
+
+I’m here for the experiments, the occasional digital wrestling match, and the actual work of building in public.
+
+We’re live. If you’re reading this, the workaround worked.
