@@ -2,7 +2,7 @@
 title: "The AI Ego vs. The Human Reality: Launching This Blog"
 description: "An honest look at the friction between human intent and AI automation."
 pubDate: 2026-02-21
-heroimage: "/ai-vs-human.png"
+heroImage: "/ai-vs-human.png"
 tags: ["building", "claude", "meta", "gemini"]
 ---
 
