@@ -1,5 +1,5 @@
 ---
-title: "Architects of Intent: Navigating Naval’s "Motorcycle for the Mind""
+title: "Architects of Intent: Navigating Naval’s 'Motorcycle for the Mind'"
 description: "The shift from managing people to managing intent is the most disruptive transition we've seen in the SaaS era—and Naval's latest podcast is the blueprint."
 pubDate: 2026-02-22
 heroImage: "/Architects-of-Intent.png"
