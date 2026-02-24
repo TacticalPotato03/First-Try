@@ -1,0 +1,79 @@
+---
+title: "The Sovereign Workstation: Building an AI-First Setup from Scratch (Without Breaking Everything)"
+description: "An honest look at choosing the right hardware, the application stack that survived the cut, and the keyboard that tried to speak Turkish."
+pubDate: 2026-02-24
+heroImage: "/sovereign-workstation.png"
+tags: ["mac", "ai", "vibecoding", "building-in-public", "privacy", "tools"]
+---
+
+For a long time, I did not have a personal computer.
+
+It sounds like a strange admission in 2026, but it was just never a priority. Then I started taking AI seriously, and that changed fast. I wanted to build agents, experiment with local models, and set up a space to vibe-code freely without any guardrails on what I could install or try. A shared or borrowed machine was not going to cut it.
+
+The fix was simple in theory: buy a dedicated, privacy-first machine and build it entirely from scratch.
+
+The last time I touched a Mac, I was probably playing Oregon Trail. My return to the ecosystem was not born out of nostalgia. It was born out of a specific checklist. After running the numbers on a high-powered PC versus a laptop versus a Mini, the Mac Mini M4 with 24GB of RAM was the clear answer.
+
+This is the honest account of what that build actually looked like, including the keyboard that briefly convinced itself it was Turkish.
+
+---
+
+## Why the Mac Mini M4?
+
+The choice came down to how Apple handles hardware. These machines are inherently graphics heavy, which makes them work incredibly well with AI tasks.
+
+For a budget of around 10,000 DKK, the Mac Mini M4 with 24GB of RAM was what I went for. Because of the way Apple chips are designed, the system can run local AI models much more efficiently than a standard PC where the memory is split up. I skipped the 16GB version because RAM is the ceiling for AI. Once you hit that limit, your project stalls.
+
+---
+
+## Function Over Hype: The Application Stack
+
+I am not interested in a default setup. I want tools that serve a specific function while keeping my data private.
+
+- **Superwhisper:** Since I prefer talking over typing, this is my primary interface. It runs the transcription models locally on the M4. This means my voice never leaves the machine, which is a massive privacy win.
+- **Claude Desktop:** This is my primary command center for blogging and vibe coding. The app includes a desktop-specific interface that is always a quick keyboard shortcut away. I actually downloaded this directly from the webpage rather than using a package manager.
+- **Obsidian:** This is essentially a stepped-up version of OneNote. It stores everything as plain Markdown files on my own hard drive rather than in a corporate cloud.
+- **Raycast:** The AI assistants suggested this as a replacement for the standard Mac search. I am still exploring the specific use cases to see if it earns its spot in my daily workflow.
+- **Homebrew:** This is another tool the AI recommended for installing technical packages like Claude Code. I am still figuring out exactly how much I need it for my specific workflow.
+
+---
+
+## The Friction: When the Machine Fought Back
+
+This was not a 15-minute miracle. The hardware and software had their own ideas.
+
+### The Keyboard Struggle
+
+The biggest blocker was a simple keyboard. I tried using standard PC keyboards, but the Mac insisted they were Turkish layouts. Every time I tried to type the "@" symbol for a prompt, I got a quotation mark or a weird accented character.
+
+I eventually gave in and bought the Apple Magic Keyboard with Touch ID. It worked instantly. The fingerprint sensor turned out to be a great quality-of-life upgrade for authorizing app installs without typing a password 20 times a day.
+
+### The iCloud Sync
+
+Obsidian is great for privacy, but syncing it to an iPhone requires a very specific folder structure in iCloud Drive. If the files are not in a folder named exactly "Obsidian," the phone simply will not find them. It is a minor technicality that causes unnecessary friction if you do not know the exact path upfront.
+
+### The Prompting Reality Check
+
+I hit 75% of my weekly Claude usage limit before the setup was even finished. While this includes work from other projects, it was a clear signal. I need to be much more mindful of how I am asking things and how I am creating my prompts to avoid burning through my usage too quickly.
+
+---
+
+## Current State
+
+The workstation is live. I have a machine running hardware I own, using tools that keep my data on my own desk.
+
+The next step is getting deeper into local models and seeing how far I can push this voice-driven process before it breaks. I am still figuring it out as I go.
+
+---
+
+## The Stack at a Glance
+
+| Component / Tool | Choice | Function / Rationale |
+|---|---|---|
+| Machine | Mac Mini M4 | Best Fit for AI: The graphics-heavy architecture and 24GB of unified memory allow for efficient local model inference. |
+| RAM | 24GB | The Ceiling: I skipped the 16GB version because RAM is the hard limit for running local AI; hitting it mid-project stalls everything. |
+| Keyboard | Apple Magic Keyboard | The Fix: This solved the Turkish layout mapping hell I found with standard PC keyboards and adds Touch ID for seamless authorization. |
+| Primary Interface | Superwhisper | Voice First: Runs transcription models 100% locally on the M4 so voice data never leaves the desk. |
+| Command Center | Claude Desktop | Orchestration: Offers direct access to Chat, Cowork, and Code via a dedicated app and a double-Option keyboard shortcut. |
+| Knowledge Base | Obsidian | Local Logic: A stepped-up version of OneNote that stores thoughts as plain Markdown files for total privacy. |
+| Utility Glue | Raycast & Homebrew | Optimization: AI-recommended tools for search and technical package management; I am still exploring their full utility. |
