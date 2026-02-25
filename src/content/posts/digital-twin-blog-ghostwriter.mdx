@@ -6,6 +6,41 @@ heroImage: "/digital-twin.png"
 tags: ["vibecoding", "ai", "claude", "building-in-public", "tools"]
 ---
 
+import StackTable from '../../components/StackTable.astro';
+
+export const stack = [
+  {
+    component: "Platform",
+    choice: "Claude Projects",
+    tag: "Context Persistence",
+    rationale: "Context persistence; pre-loaded style for every new chat.",
+  },
+  {
+    component: "Second Opinion",
+    choice: "Gemini",
+    tag: "Human Nuance",
+    rationale: "Personalization layer; recapturing the human nuances from the raw notes.",
+  },
+  {
+    component: "Style File",
+    choice: "Style_Guide.md",
+    tag: "Voice Constraints",
+    rationale: "Defines cadence, voice constraints, and the \"No-Fly\" list.",
+  },
+  {
+    component: "Writing Samples",
+    choice: "Samples.md",
+    tag: "Calibration Layer",
+    rationale: "The calibration layer; real-world examples of the rules in action.",
+  },
+  {
+    component: "Iteration",
+    choice: "Post-Mortem Prompt",
+    tag: "Feedback Loop",
+    rationale: "A feedback loop that updates the style guide after every post.",
+  },
+];
+
 I publish blog posts about building with AI. The irony is that building those posts was taking longer than the experiments themselves.
 
 The problem was not the ideas. It was the translation. Every time I sat down to turn a brain dump or a long chat log into a finished post, I was starting from scratch. I was re-explaining my tone, re-establishing my style, and watching Claude produce something that sounded like a corporate press release rather than a person thinking out loud.
@@ -95,10 +130,4 @@ The brain dump was a long Gemini chat log and a rough outline. The draft was gen
 
 ## The Stack at a Glance
 
-| Component | Choice | Function / Rationale |
-| --- | --- | --- |
-| Platform | Claude Projects | Context persistence; pre-loaded style for every new chat. |
-| Second Opinion | Gemini | Personalization layer; recapturing the human nuances from the raw notes. |
-| Style File | Style_Guide.md | Defines cadence, voice constraints, and the "No-Fly" list. |
-| Writing Samples | Samples.md | The calibration layer; real-world examples of the rules in action. |
-| Iteration | Post-Mortem Prompt | A feedback loop that updates the style guide after every post. |
+<StackTable stack={stack} />

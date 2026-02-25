@@ -8,6 +8,51 @@ tags: ["mac", "ai", "vibecoding", "building-in-public", "privacy", "tools"]
 
 import StackTable from '../../components/StackTable.astro';
 
+export const stack = [
+  {
+    component: "Machine",
+    choice: "Mac Mini M4",
+    tag: "Best Fit for AI",
+    rationale: "The graphics-heavy architecture and 24GB of unified memory allow for efficient local model inference.",
+  },
+  {
+    component: "RAM",
+    choice: "24 GB",
+    tag: "The Ceiling",
+    rationale: "I skipped the 16GB version because RAM is the hard limit for running local AI; hitting it mid-project stalls everything.",
+  },
+  {
+    component: "Keyboard",
+    choice: "Apple Magic Keyboard",
+    tag: "The Fix",
+    rationale: "Solved the Turkish layout mapping hell with standard PC keyboards and adds Touch ID for seamless authorization.",
+  },
+  {
+    component: "Primary Interface",
+    choice: "Superwhisper",
+    tag: "Voice First",
+    rationale: "Runs transcription models 100% locally on the M4 so voice data never leaves the desk.",
+  },
+  {
+    component: "Command Center",
+    choice: "Claude Desktop",
+    tag: "Orchestration",
+    rationale: "Offers direct access to Chat, Cowork, and Code via a dedicated app and a double-Option keyboard shortcut.",
+  },
+  {
+    component: "Knowledge Base",
+    choice: "Obsidian",
+    tag: "Local Logic",
+    rationale: "A stepped-up version of OneNote that stores thoughts as plain Markdown files for total privacy.",
+  },
+  {
+    component: "Utility Glue",
+    choice: "Raycast & Homebrew",
+    tag: "Optimization",
+    rationale: "AI-recommended tools for search and technical package management; still exploring their full utility.",
+  },
+];
+
 For a long time, I did not have a personal computer.
 
 It sounds like a strange admission in 2026, but it was just never a priority. Then I started taking AI seriously, and that changed fast. I wanted to build agents, experiment with local models, and set up a space to vibe-code freely without any guardrails on what I could install or try. A shared or borrowed machine was not going to cut it.
@@ -70,4 +115,4 @@ The next step is getting deeper into local models and seeing how far I can push 
 
 ## The Stack at a Glance
 
-<StackTable />
+<StackTable stack={stack} />
