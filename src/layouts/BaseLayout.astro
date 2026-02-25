@@ -7,12 +7,12 @@ interface Props {
 
 const {
   title,
-  description = 'Personal blog by Travis Campbell — notes on building, thinking, and shipping.',
+  description = 'Personal blog by Travis Damgaard Campbell — notes on building, thinking, and shipping.',
   ogImage,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const siteTitle = 'Travis Campbell';
+const siteTitle = 'Travis Damgaard Campbell';
 const fullTitle = title === siteTitle ? title : `${title} — ${siteTitle}`;
 ---
 
@@ -26,7 +26,7 @@ const fullTitle = title === siteTitle ? title : `${title} — ${siteTitle}`;
     <!-- Primary Meta -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="Travis Campbell" />
+    <meta name="author" content="Travis Damgaard Campbell" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -50,11 +50,12 @@ const fullTitle = title === siteTitle ? title : `${title} — ${siteTitle}`;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" />
   </head>
   <body>
     <header class="site-header">
       <div class="container">
-        <a href="/" class="site-logo">Travis Campbell</a>
+        <a href="/" class="site-logo">Travis Damgaard Campbell</a>
         <nav>
           <ul class="site-nav">
             <li><a href="/">Writing</a></li>
@@ -70,7 +71,7 @@ const fullTitle = title === siteTitle ? title : `${title} — ${siteTitle}`;
 
     <footer class="site-footer">
       <div class="container">
-        <p>&copy; {new Date().getFullYear()} Travis Campbell &mdash; Built with Astro</p>
+        <p>&copy; {new Date().getFullYear()} Travis Damgaard Campbell &mdash; Built with Astro</p>
       </div>
     </footer>
   </body>
