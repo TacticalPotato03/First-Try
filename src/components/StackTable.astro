@@ -1,0 +1,149 @@
+---
+const stack = [
+  {
+    component: "Machine",
+    choice: "Mac Mini M4",
+    tag: "Best Fit for AI",
+    rationale: "The graphics-heavy architecture and 24GB of unified memory allow for efficient local model inference.",
+  },
+  {
+    component: "RAM",
+    choice: "24 GB",
+    tag: "The Ceiling",
+    rationale: "I skipped the 16GB version because RAM is the hard limit for running local AI; hitting it mid-project stalls everything.",
+  },
+  {
+    component: "Keyboard",
+    choice: "Apple Magic Keyboard",
+    tag: "The Fix",
+    rationale: "Solved the Turkish layout mapping hell with standard PC keyboards and adds Touch ID for seamless authorization.",
+  },
+  {
+    component: "Primary Interface",
+    choice: "Superwhisper",
+    tag: "Voice First",
+    rationale: "Runs transcription models 100% locally on the M4 so voice data never leaves the desk.",
+  },
+  {
+    component: "Command Center",
+    choice: "Claude Desktop",
+    tag: "Orchestration",
+    rationale: "Offers direct access to Chat, Cowork, and Code via a dedicated app and a double-Option keyboard shortcut.",
+  },
+  {
+    component: "Knowledge Base",
+    choice: "Obsidian",
+    tag: "Local Logic",
+    rationale: "A stepped-up version of OneNote that stores thoughts as plain Markdown files for total privacy.",
+  },
+  {
+    component: "Utility Glue",
+    choice: "Raycast & Homebrew",
+    tag: "Optimization",
+    rationale: "AI-recommended tools for search and technical package management; still exploring their full utility.",
+  },
+];
+---
+
+<div class="stack-grid">
+  {stack.map((item, i) => (
+    <div class="stack-card">
+      <span class="card-index">{String(i + 1).padStart(2, '0')}</span>
+      <span class="card-component">{item.component}</span>
+      <h3 class="card-choice">{item.choice}</h3>
+      <span class="card-tag">{item.tag}</span>
+      <p class="card-rationale">{item.rationale}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background-color: var(--color-border, #e5e5e5);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+
+  @media (min-width: 640px) {
+    .stack-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .stack-grid {
+      grid-template-columns: repeat(3, minmax(280px, 1fr));
+    }
+  }
+
+  .stack-card {
+    background: var(--color-bg, #ffffff);
+    padding: 1.5rem;
+    position: relative;
+    transition: background 0.15s ease;
+  }
+
+  .stack-card:hover {
+    background: var(--color-bg-soft, #f9f9f9);
+  }
+
+  .card-index {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--color-text-muted, #777777);
+    letter-spacing: 0.05em;
+  }
+
+  .card-component {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-text-muted, #777777);
+    margin-bottom: 0.5rem;
+  }
+
+  .card-choice {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    font-weight: 400;
+    color: var(--color-text, #111111);
+    margin: 0 2rem 0.75rem 0;
+    line-height: 1.2;
+  }
+
+  .card-tag {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--color-text, #111111);
+    border: 1px solid var(--color-text, #111111);
+    padding: 0.2em 0.55em;
+    border-radius: 2px;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-rationale {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--color-text-muted, #777777);
+    line-height: 1.65;
+    margin: 0.5rem 0 0 0;
+  }
+</style>
