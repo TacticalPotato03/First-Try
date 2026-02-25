@@ -29,8 +29,8 @@ const { stack } = Astro.props;
   .stack-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1px;
-    background-color: var(--color-border, #e5e5e5);
+    gap: 0;
+    border: 1px solid var(--color-border, #e5e5e5);
     border-radius: 12px;
     overflow: hidden;
     margin: 2rem 0;
@@ -38,13 +38,13 @@ const { stack } = Astro.props;
 
   @media (min-width: 640px) {
     .stack-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 900px) {
     .stack-grid {
-      grid-template-columns: repeat(3, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
@@ -53,6 +53,8 @@ const { stack } = Astro.props;
     padding: 1.5rem;
     position: relative;
     transition: background 0.15s ease;
+    border-right: 1px solid var(--color-border, #e5e5e5);
+    border-bottom: 1px solid var(--color-border, #e5e5e5);
   }
 
   .stack-card:hover {
