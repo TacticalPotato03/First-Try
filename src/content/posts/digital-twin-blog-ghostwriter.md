@@ -1,0 +1,104 @@
+---
+title: "The Digital Twin: Building a Claude Project That Actually Writes Like Me"
+description: "I publish blog posts about building with AI. The irony is that building those posts was taking longer than the experiments themselves."
+pubDate: 2026-02-25
+heroImage: "/digital-twin.png"
+tags: ["vibecoding", "ai", "claude", "building-in-public", "tools"]
+---
+
+I publish blog posts about building with AI. The irony is that building those posts was taking longer than the experiments themselves.
+
+The problem was not the ideas. It was the translation. Every time I sat down to turn a brain dump or a long chat log into a finished post, I was starting from scratch. I was re-explaining my tone, re-establishing my style, and watching Claude produce something that sounded like a corporate press release rather than a person thinking out loud.
+
+So I built a fix. This is the story of how I created the Blog Ghostwriter Project, the specific configuration that makes it work, and how I use a multi-model feedback loop to keep it sharp.
+
+---
+
+## Why This Exists
+
+The goal is not to remove myself from the writing. The goal is to remove the repetition.
+
+Every post I write starts the same way: a messy pile of voice transcriptions, chat logs, and half-formed thoughts. The craft is in finding the signal and shaping it into something readable. That requires judgment. The mechanics, such as maintaining sentence cadence, ensuring the tone is honest rather than polished, and avoiding AI-isms, do not require starting from zero each time.
+
+A Claude Project with a proper style file and real writing samples means the AI already knows the rules before I type a single word. I show up with the raw material; it meets me with the right frame.
+
+---
+
+## How It Works: The Three-File Architecture
+
+The project runs on two files living in the Project Knowledge section and one set of Custom Instructions.
+
+### 1. The Style Guide (Style_Guide.md)
+
+This is the rulebook. It defines the constraints the AI must follow before it generates a single character.
+
+- **The Lead:** Short, declarative thesis statements.
+- **The Cadence:** A "Short-Short-Long" sentence structure to create rhythm.
+- **The "No-Fly" List:** This is the most critical section. Listing what the voice avoids is significantly more useful than describing what it does. My list includes:
+  - No "In conclusion" or "In summary."
+  - No "Delve," "Tapestry," or "Embark."
+  - **The Punctuation Rule:** No em-dashes used as punctuation inside a sentence. Use commas, periods, or colons instead.
+
+### 2. The Writing Samples (Writing_Samples.md)
+
+This file contains the full text of my published posts. While the Style Guide provides the rules, this file provides the calibration. The AI reads the instructions, then looks at the samples to see how those instructions manifest in reality.
+
+### 3. The Operating Protocol (Project Instructions)
+
+The Instructions box ties it all together. It tells Claude exactly how to behave when a brain dump arrives:
+
+- Prioritize the Style Guide over default AI behaviors.
+- Mirror the structural patterns of the Writing Samples.
+- Skip the filler: Start immediately with a draft. No "Sure, I can help with that" or "Here is a draft based on your notes."
+
+---
+
+## The Build Process
+
+This project did not come from a clean plan; it came from a Gemini conversation where I was trying to preserve my Claude query limit. If I had to re-explain my style at the start of every chat, I was burning tokens and introducing style drift.
+
+The actual build happened in four steps.
+
+1. **Pattern Extraction:** I had Gemini analyze my published posts to extract patterns into a structured document. I then manually stripped out the generic AI summary fluff.
+2. **File Preparation:** I formatted my writing samples with clear Markdown separators so the AI could distinguish between different posts.
+3. **Knowledge Upload:** I uploaded these as files in the Project Knowledge section rather than pasting them into the instruction box. This keeps the instructions clean and creates a clear separation between rules and examples.
+4. **The Directive:** I wrote short, process-oriented instructions: "Produce a draft that is 80 to 90 percent ready to ship. No preamble. Just start."
+
+---
+
+## The Secret Sauce: The Gemini Second Opinion
+
+Even with a perfect Claude Project, the output can sometimes feel too clean. To fix this, I added a cross-model step to find the digital twin within the data.
+
+Once Claude provides the 90 percent draft, I move it over to Gemini. I ask Gemini to review the draft against the original brain dump. I tell it to look for the specific pieces of personality, frustration, or humor from my raw notes that Claude might have smoothed over. This step adds the character and vibe coding that a single model often misses on the first pass.
+
+---
+
+## How I Iterate: The Post-Mortem Loop
+
+The files are living documents. To keep the project from drifting, I run a feedback loop after every post.
+
+- **Publish:** I finish and publish the post on my site.
+- **The Comparison:** I paste the final shipped version back into the Claude project.
+- **The Prompt:** I ask: "Compare your initial draft with this final version. Tell me three specific differences in word choice, structure, or punctuation. What should I add to the Style Guide to close this gap?"
+- **If I catch myself** making the same manual correction across three posts, that correction becomes a new Negative Constraint in the Style Guide.
+
+---
+
+## Current State
+
+The project is live. This very post was produced using this workflow.
+
+The brain dump was a long Gemini chat log and a rough outline. The draft was generated by my digital twin in Claude, and Gemini then helped punch up the personality. The ratio of revision time to starting from scratch time is the metric I am tracking, and right now, the gap is shrinking.
+
+---
+
+## The Stack at a Glance
+
+| Component | Choice | Function / Rationale |
+| --- | --- | --- |
+| Platform | Claude Projects | Context persistence; pre-loaded style for every new chat. |
+| Second Opinion | Gemini | Personalization layer; recapturing the human nuances from the raw notes. |
+| Style File | Style_Guide.md | Defines cadence, voice constraints, and the "No-Fly" list. |
+| Writing Samples | Samples.md | The calibration layer; real-world examples of the rules in action. |
+| Iteration | Post-Mortem Prompt | A feedback loop that updates the style guide after every post. |
