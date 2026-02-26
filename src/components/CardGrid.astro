@@ -1,0 +1,101 @@
+---
+interface CardItem {
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
+interface Props {
+  cards: CardItem[];
+}
+
+const { cards } = Astro.props;
+---
+
+<div class="card-grid">
+  {cards.map((item, i) => (
+    <div class="card">
+      <span class="card-index">{String(i + 1).padStart(2, '0')}</span>
+      <span class="card-title">{item.title}</span>
+      <p class="card-subtitle">{item.subtitle}</p>
+      <p class="card-description">{item.description}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border: 1px solid var(--color-border, #e5e5e5);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+
+  @media (min-width: 640px) {
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 900px) {
+    .card-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .card {
+    background: var(--color-bg, #ffffff);
+    padding: 1.5rem;
+    position: relative;
+    transition: background 0.15s ease;
+    border-right: 1px solid var(--color-border, #e5e5e5);
+    border-bottom: 1px solid var(--color-border, #e5e5e5);
+  }
+
+  .card:hover {
+    background: var(--color-bg-soft, #f9f9f9);
+  }
+
+  .card-index {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--color-text-muted, #777777);
+    letter-spacing: 0.05em;
+  }
+
+  .card-title {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-text-muted, #777777);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .card-subtitle {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    font-weight: 400;
+    color: var(--color-text, #111111);
+    margin: 0 2rem 0.75rem 0;
+    line-height: 1.2;
+  }
+
+  .card-description {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--color-text-muted, #777777);
+    line-height: 1.65;
+    margin: 0;
+  }
+</style>
