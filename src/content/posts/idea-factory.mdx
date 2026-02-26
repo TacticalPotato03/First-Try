@@ -6,6 +6,41 @@ heroImage: "/idea-factory.png"
 tags: ["vibecoding", "obsidian", "ai", "productivity", "building-in-public"]
 ---
 
+import CardGrid from '../../components/CardGrid.astro';
+
+export const cards = [
+  {
+    title: "Command Center",
+    subtitle: "Obsidian + Templater + Dataview",
+    description: "Local-first vault. Templater runs the automation scripts. Dataview powers the daily dashboard and TBD warnings.",
+  },
+  {
+    title: "The Incubator",
+    subtitle: "Master List.md",
+    description: "Single file for raw sparks. Monthly cull moves stale ideas to Archive. Stays under 15 items.",
+  },
+  {
+    title: "The Factory Floor",
+    subtitle: "Single project file per build",
+    description: "YAML frontmatter, collapsible Version Log, and a copy-pasteable AI Context Block that separates working from broken state.",
+  },
+  {
+    title: "The Cockpit",
+    subtitle: "Daily Notes + Next_Handover.md",
+    description: "Rolling dashboard injecting yesterday's handover, displaying all active projects, and flagging undefined intents.",
+  },
+  {
+    title: "Build Execution",
+    subtitle: "Claude Code, Gemini, VS Code",
+    description: "Heavy lifting happens externally. Obsidian holds the \"intellectual DNA,\" not the code itself.",
+  },
+  {
+    title: "Streak Tracking",
+    subtitle: "Session Count + Energy Level",
+    description: "Per-project counter plus daily energy tag. Reveals momentum patterns and matches tasks to brainpower.",
+  },
+];
+
 Most people don't have a creativity problem. They have a continuity problem.
 
 In a world where AI can summarize, code, and refactor in seconds, the "raw material" of information is no longer the bottleneck. The real differentiator is the human spark, the ability to look at a problem and say, "What if we built this?" But ideas are fragile. They die in the space between "that's a cool thought" and "I'm actually building it." I wanted to stop daydreaming and start shipping, so I devoted 90 minutes a day to growing my "creativity muscle."
@@ -92,11 +127,4 @@ In the age of AI, your ability to structure your creativity is your most valuabl
 
 ## The System at a Glance
 
-| Component | Choice / Tool | Function / Rationale |
-| --- | --- | --- |
-| Command Center | Obsidian + Templater + Dataview | Local-first vault. Templater runs the automation scripts. Dataview powers the daily dashboard and TBD warnings. |
-| The Incubator | Master List.md | Single file for raw sparks. Monthly cull moves stale ideas to Archive. Stays under 15 items. |
-| The Factory Floor | Single project file per build | YAML frontmatter, collapsible Version Log, and a copy-pasteable AI Context Block that separates working from broken state. |
-| The Cockpit | Daily Notes + Next_Handover.md | Rolling dashboard injecting yesterday's handover, displaying all active projects, and flagging undefined intents. |
-| Build Execution | Claude Code, Gemini, VS Code | Heavy lifting happens externally. Obsidian holds the "intellectual DNA," not the code itself. |
-| Streak Tracking | Session Count + Energy Level | Per-project counter plus daily energy tag. Reveals momentum patterns and matches tasks to brainpower. |
+<CardGrid cards={cards} />
