@@ -1,0 +1,134 @@
+---
+title: "The Sovereign Builder: Running a Local AI Coding Stack on a Mac Mini"
+description: "Cloud AI credits are a meter running in the background. I spent an afternoon building a local coding environment that keeps the vibe and kills the bill."
+pubDate: 2026-03-03
+heroImage: "/sovereign-builder.png"
+tags: ["vibecoding", "ai", "ollama", "building-in-public", "tools", "sovereignty"]
+---
+
+import CardGrid from '../../components/CardGrid.astro';
+
+export const cards = [
+  {
+    title: "The Engine",
+    subtitle: "Ollama",
+    description: "Background service on macOS. Serves local models via API. No Docker, no config files, no cloud dependency.",
+  },
+  {
+    title: "The Model",
+    subtitle: "Qwen3-Coder 30B (MoE)",
+    description: "30B total parameters, 3.3B active per token. The 'Goldilocks' fit for 24GB unified memory. Scores 9.9/10 on coding benchmarks.",
+  },
+  {
+    title: "The Hands",
+    subtitle: "Aider CLI",
+    description: "Git-integrated, local-first pair programmer. Every change is a commit. Lighter context overhead than Claude Code on constrained hardware.",
+  },
+  {
+    title: "The Architect",
+    subtitle: "Claude Cloud (Web)",
+    description: "Reserved for strategic planning, complex troubleshooting, and 'Senior Developer' reviews. Credits spent on thinking, not typing.",
+  },
+  {
+    title: "The Fallback",
+    subtitle: "DeepSeek-R1 32B (Local)",
+    description: "A local 'thinking' model for logic-heavy debugging. Slower, but keeps sensitive code off the cloud entirely.",
+  },
+  {
+    title: "The Guardrails",
+    subtitle: "sovereign_instructions.md",
+    description: "A security conventions file loaded at session start. Protects secrets, enforces local-only execution, prevents data leakage.",
+  },
+];
+
+Every developer using AI tools in 2026 is renting intelligence by the token. The cloud models are extraordinary, but the credit meter is always running. For quick prototypes, boilerplate, and one-hour builds, that meter adds up fast. The question becomes: what if the "Builder" lived on your own hardware, and you only called the cloud when you genuinely needed a senior opinion?
+
+That question led me to spend an afternoon constructing a local AI coding environment on my Mac Mini M4. The goal was simple: keep the creative speed of "vibe coding" while keeping my data, my credits, and my sovereignty intact. This is the story of the multi-model relay race that got me there, the critical course correction that nearly saved me from a hardware wall, and the 30 minutes it actually took to go live.
+
+---
+
+## The Problem: Burning Credits on Typing
+
+My existing workflow leans heavily on Claude. Planning, coding, troubleshooting, reviewing. That works beautifully for complex architectural decisions. It works poorly for asking an AI to scaffold a Python script or crank out Tailwind components for the third time that week.
+
+The ratio was wrong. I was spending cloud credits on execution tasks that a local model could handle, while the tasks that genuinely needed frontier intelligence were competing for the same budget. I needed to split the roles: a local "Builder" for the heavy lifting, and a cloud "Architect" for the hard thinking.
+
+---
+
+## The Brainstorm: Gemini Maps the Terrain
+
+I started the project in Gemini, thinking out loud about what a local coding stack even looks like in early 2026. The conversation surfaced two viable paths: Ollama plus Claude Code (redirected to a local server), or Ollama plus Aider (a CLI tool purpose-built for local model coding). Both use Ollama as the inference engine. The difference is in the "hands" that touch your files.
+
+Gemini also helped me frame the key hardware question. My Mac Mini has 24GB of unified memory. That number determines everything: which models fit, how much context the model can hold while working, and how much headroom remains for macOS and the tools running alongside it. The initial recommendation was a dense 32B model, quantized to fit. I took this plan to Claude for a second opinion.
+
+---
+
+## The Course Correction: Dense vs. MoE
+
+Claude's research changed the entire model strategy.
+
+A dense 32B model uses all 32 billion parameters for every token it generates. Quantized to 4-bit, that is roughly 18 to 20GB of memory just for the model weights. On a 24GB machine, that leaves almost nothing for the operating system, the context window, and tool overhead. The result is a model that technically runs but practically crawls.
+
+The fix was a different architecture entirely: MoE, or Mixture of Experts. The Qwen3-Coder 30B model has 30 billion total parameters but only activates 3.3 billion per token. Think of it as a firm with 30 specialists where only three work on any given task. The result is a model that runs fast, scores 9.9 out of 10 on coding benchmarks, and leaves room on my Mac Mini for everything else to breathe.
+
+Claude also redirected the tooling choice. Claude Code is powerful, but it sends a 16K token system prompt on every interaction, eating a significant chunk of the local model's context window before you even type a word. Community consensus puts the comfortable minimum at 32GB of RAM. For my 24GB machine, Aider is the better fit: lighter overhead, native Ollama integration, and automatic git commits on every change.
+
+---
+
+## The 30-Minute Build
+
+The actual setup was remarkably simple. No Docker containers. No Python virtual environments. No API keys.
+
+**The Engine:** I installed Ollama from their website and pulled two models. `qwen3-coder:30b` as the primary builder, and `deepseek-r1:32b` as a local fallback for logic-heavy debugging that I want to keep off the cloud entirely.
+
+**The Hands:** I installed Aider via Homebrew and created a single shell alias:
+
+```bash
+alias vibe='aider --model ollama/qwen3-coder:30b --analytics-disable --no-browser'
+```
+
+That alias does three things. It launches Aider pointed at my local model, it disables telemetry, and it prevents the tool from opening a browser. From any project folder, typing `vibe` drops me into a sovereign pair-programming session.
+
+**The First Test:** I initialized a project folder with git, created a `.env` file with a dummy secret, added it to `.gitignore`, and asked the local model to build a file scanner that redacts sensitive filenames from its output. The model wrote the code, handled edge cases I did not ask for (like `FileNotFoundError` handling), and Aider auto-committed every change. The `.env` file printed as `REDACTED`. Zero bytes left my machine.
+
+---
+
+## Hardening for Sovereignty
+
+A local model is private by default, but "private by default" is not the same as "secure by design." Three additions turned the setup from "mostly private" to high confidence.
+
+The first was the analytics flag baked into the alias. Aider can send anonymous usage data. The `--analytics-disable` flag ensures it does not.
+
+The second was a `sovereign_instructions.md` file that lives in every project folder. It contains five rules: never read `.env` files, refer to secrets by variable name only, keep all code runnable on local hardware, prefer local libraries over CDN links, and explain the "why" behind every fix. Loading this file at the start of each session (`/read sovereign_instructions.md`) gives the local model its security guardrails before it touches a single line of code.
+
+The third was a workflow rule for the hybrid handoff. The biggest data sovereignty risk in this setup is the manual copy-paste to Claude Cloud for troubleshooting. The rule: if the project contains sensitive logic or personal data, use the local DeepSeek model for debugging instead. Switch models inside Aider with `/model ollama/deepseek-r1:32b`. Only escalate to the cloud after stripping context to the relevant, non-sensitive function.
+
+---
+
+## The Hybrid Workflow
+
+The daily pattern now looks like this. I open Claude in the browser and describe the project. Claude produces a `TODO.md` with a step-by-step technical plan. I drop that file into a local project folder, type `vibe`, and tell Aider to read the plan and start building. The local model handles the execution: writing functions, scaffolding files, running tests. If it gets stuck after three attempts, I switch to the local reasoning model. If that fails too, I copy the specific problem (stripped of secrets) to Claude for a senior review.
+
+The credit math is compelling. A one-hour build session that previously cost dozens of cloud messages now costs two or three at most, spent on the planning and the occasional hard bug. Everything in between runs on hardware I own.
+
+---
+
+## What I Learned About Local Models
+
+The speed is real but different. The MoE model generates at roughly reading speed, around 15 to 40 tokens per second depending on context length. That is fast enough to maintain creative flow but noticeably slower than cloud responses. The biggest bottleneck is prompt processing: feeding the model a large file for the first time requires patience.
+
+The quality ceiling is also different. For small projects, scripts, prototypes, and one-hour builds, the local model handles 80 to 90 percent of tasks cleanly. The remaining 10 to 20 percent, subtle bugs, complex architecture, nuanced CSS, is exactly where cloud credits earn their keep. The hybrid model is not about replacing the cloud. It is about deploying it precisely where it matters.
+
+---
+
+## Current State
+
+The stack is live. The alias works. The sovereignty guardrails are tested. This post was planned in Claude, and the coding environment it describes was built entirely by a model running on my desk.
+
+The next session is about expanding the prototype: generalizing the redaction logic to cover additional sensitive file types and piping the output into a structured log. The muscle is the same one-hour sprint. The meter is no longer running.
+
+---
+
+## The Stack at a Glance
+
+<CardGrid cards={cards} />
