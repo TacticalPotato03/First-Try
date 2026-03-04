@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://travis-campbell.com/sitemap-index.xml
