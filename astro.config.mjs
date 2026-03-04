@@ -3,7 +3,7 @@ import mdx from '@astrojs/mdx';
 
 export default defineConfig({
   integrations: [mdx()],
-  site: 'https://www.travis-campbell.com',
+  site: 'https://travis-campbell.com',
   markdown: {
     shikiConfig: {
       theme: 'github-dark',
