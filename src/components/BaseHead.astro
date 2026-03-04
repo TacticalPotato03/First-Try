@@ -5,6 +5,7 @@ interface Props {
   image?: string;
   url?: string;
   type?: 'article' | 'website';
+  datePublished?: Date;
 }
 
 const {
@@ -13,6 +14,7 @@ const {
   image,
   url,
   type = 'website',
+  datePublished,
 } = Astro.props;
 
 const siteTitle = 'Travis Damgaard Campbell';
@@ -26,6 +28,20 @@ const fallbackImage = new URL('/og-image.png', Astro.site).toString();
 const ogImage = image
   ? new URL(image, Astro.site).toString()
   : fallbackImage;
+
+const jsonLd = type === 'article' ? JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description,
+  datePublished: datePublished?.toISOString(),
+  image: ogImage,
+  url: canonicalURL.toString(),
+  author: {
+    '@type': 'Person',
+    name: 'Travis Damgaard Campbell',
+  },
+}) : null;
 ---
 
 <meta charset="UTF-8" />
@@ -56,3 +72,6 @@ const ogImage = image
 
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- JSON-LD structured data -->
+{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}

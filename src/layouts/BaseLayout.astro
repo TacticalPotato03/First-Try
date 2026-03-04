@@ -6,6 +6,7 @@ interface Props {
   description?: string;
   image?: string;
   type?: 'article' | 'website';
+  datePublished?: Date;
 }
 
 const {
@@ -13,13 +14,14 @@ const {
   description = 'Personal blog by Travis Damgaard Campbell — notes on building, thinking, and shipping.',
   image,
   type = 'website',
+  datePublished,
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} image={image} type={type} />
+    <BaseHead title={title} description={description} image={image} type={type} datePublished={datePublished} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
