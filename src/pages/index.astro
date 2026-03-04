@@ -36,10 +36,10 @@ function formatDate(date: Date) {
   <li class="post-item">
     <a href={`/posts/${post.slug}`} class="post-item-link">
       {post.data.heroImage && (
-        <img 
-          src={post.data.heroImage} 
-          alt="" 
-          class="post-item-thumbnail" 
+        <img
+          src={post.data.heroImage}
+          alt={post.data.title}
+          class="post-item-thumbnail"
         />
       )}
       <div class="post-item-content">
