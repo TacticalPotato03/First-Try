@@ -1,0 +1,58 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  url?: string;
+  type?: 'article' | 'website';
+}
+
+const {
+  title,
+  description,
+  image,
+  url,
+  type = 'website',
+} = Astro.props;
+
+const siteTitle = 'Travis Damgaard Campbell';
+const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+
+const canonicalURL = url
+  ? new URL(url)
+  : new URL(Astro.url.pathname, Astro.site);
+
+const fallbackImage = new URL('/og-image.png', Astro.site).toString();
+const ogImage = image
+  ? new URL(image, Astro.site).toString()
+  : fallbackImage;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta -->
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="author" content="Travis Damgaard Campbell" />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content={siteTitle} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/favicon.png" />
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
