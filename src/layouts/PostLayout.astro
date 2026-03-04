@@ -21,11 +21,17 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 
+// Convert heroImage to an absolute URL so BaseHead gets a fully-qualified
+// URL for og:image / twitter:image regardless of the site's base path.
+const heroImageUrl = heroImage
+  ? new URL(heroImage, Astro.site).toString()
+  : undefined;
+
 // Rough reading time estimate
 const wordsPerMinute = 200;
 ---
 
-<BaseLayout title={title} description={description} image={heroImage} type="article">
+<BaseLayout title={title} description={description} image={heroImageUrl} type="article">
   <div class="container">
     <article>
       <header class="post-header">
