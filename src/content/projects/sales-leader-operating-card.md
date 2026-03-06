@@ -148,12 +148,6 @@ tags: ["sales", "leadership", "first-principles", "systems-thinking"]
     .delay-5 { animation-delay: 0.5s; }
 </style>
 
-<div class="hero fade-in">
-  <div class="hero-eyebrow">First principles</div>
-  <h1>Two jobs. One filter. Zero noise.</h1>
-  <p>Everything a sales leader does either creates pipeline or helps close it. The rest is theatre.</p>
-</div>
-
 <div class="fade-in delay-1">
   <div class="section-label">Your only two jobs</div>
   <div class="jobs-grid">
