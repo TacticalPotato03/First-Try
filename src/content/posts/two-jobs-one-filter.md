@@ -2,6 +2,7 @@
 title: "Two Jobs, One Filter: The Stupidly Simple Card That Runs My Week"
 description: "Most calendars are a graveyard of good intentions. I asked AI to help me engineer my way out, and it gave me something I didn't expect: the obvious."
 pubDate: 2026-03-06
+heroImage: "/two-jobs.png"
 tags: ["leadership", "productivity", "first-principles", "building-in-public", "ai"]
 ---
 
