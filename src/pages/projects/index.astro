@@ -33,15 +33,15 @@ function formatDate(date: Date) {
       ) : (
         <ul class="post-list">
           {projects.map((project) => (
-  <li class="post-item">
+  <li class="post-item project-item">
     <a href={`/projects/${project.slug}/`} class="post-item-link">
       <div class="post-item-content">
         <div class="post-item-title">{project.data.title}</div>
         {project.data.description && (
           <div class="post-item-description">{project.data.description}</div>
         )}
-        <div class="post-item-date">{formatDate(project.data.date)}</div>
       </div>
+      <div class="post-item-date">{formatDate(project.data.date)}</div>
     </a>
   </li>
 ))}
