@@ -1,6 +1,6 @@
 ---
 title: "What I Do."
-description: "Five areas I focus on, each shaped by 15+ years building and leading sales across Europe."
+description: "Five areas I focus on. Shaped by 15+ years of building and leading sales across Europe."
 date: 2025-03-11
 tags: ["sales-leadership", "ai-native", "market-expansion"]
 ---
@@ -205,8 +205,8 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-trigger-left">
         <span class="card-num">01</span>
         <div class="card-header-text">
-          <p class="card-title">Build From Zero</p>
-          <p class="card-subtitle">Sales functions, teams, companies</p>
+          <p class="card-title">Build.</p>
+          <p class="card-subtitle">From first hire to full sales org</p>
         </div>
       </div>
       <svg class="card-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -217,10 +217,10 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-body-inner">
         <div class="card-proof">
           <ul class="proof-list">
-            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">Helped scale a software company from under $4M to over $40M in annual recurring revenue</span></li>
-            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">Co-founded a software company from concept through acquisition</span></li>
-            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">Build pipeline development processes from scratch in new markets</span></li>
-            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">Design and execute go-to-market strategy where no playbook exists yet</span></li>
+            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">I scale software companies from under $4M to over $40M in annual recurring revenue.</span></li>
+            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">I bring co-founder experience and ownership mentality to every sales org I join.</span></li>
+            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">I create pipeline development processes from scratch in new markets.</span></li>
+            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">I design and execute go-to-market strategy where no playbook exists yet.</span></li>
           </ul>
         </div>
       </div>
@@ -232,8 +232,8 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-trigger-left">
         <span class="card-num">02</span>
         <div class="card-header-text">
-          <p class="card-title">Discovery to Close</p>
-          <p class="card-subtitle">The deal cycle, end to end</p>
+          <p class="card-title">Close.</p>
+          <p class="card-subtitle">From first discovery call to signed contract</p>
         </div>
       </div>
       <svg class="card-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -244,10 +244,10 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-body-inner">
         <div class="card-proof">
           <ul class="proof-list">
-            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">Lead complex deal cycles across mid-market and enterprise segments</span></li>
-            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">Build structured qualification frameworks with hard gates on need and timeline</span></li>
-            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">Navigate multi-stakeholder procurement including legal review and budget approval</span></li>
-            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">Adapt the sales motion as a company grows from one product to a full suite</span></li>
+            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">I lead complex deal cycles across mid-market and enterprise segments.</span></li>
+            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">I build structured qualification frameworks with hard gates on need and timeline.</span></li>
+            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">I navigate multi-stakeholder procurement including legal review and budget approval.</span></li>
+            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">I adapt the sales motion as a company grows from one product to a full suite.</span></li>
           </ul>
         </div>
       </div>
@@ -259,8 +259,8 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-trigger-left">
         <span class="card-num">03</span>
         <div class="card-header-text">
-          <p class="card-title">Coach Salespeople</p>
-          <p class="card-subtitle">Structured development, not gut feel</p>
+          <p class="card-title">Coach.</p>
+          <p class="card-subtitle">From raw potential to repeatable results</p>
         </div>
       </div>
       <svg class="card-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -271,10 +271,10 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-body-inner">
         <div class="card-proof">
           <ul class="proof-list">
-            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">Part of scaling a sales organization from 4 people to 25+ across multiple markets</span></li>
-            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">Coach account executives across Europe and beyond with different market dynamics</span></li>
-            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">Use call review scorecards with structured criteria for discovery quality</span></li>
-            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">Hire, develop, and promote individual contributors into senior sales roles</span></li>
+            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">I grow sales organizations from 4 people to 25+ across multiple markets.</span></li>
+            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">I coach account executives across Europe and beyond with different market dynamics.</span></li>
+            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">I use call review scorecards with structured criteria for discovery quality.</span></li>
+            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">I hire, develop, and promote individual contributors into senior sales roles.</span></li>
           </ul>
         </div>
       </div>
@@ -286,8 +286,8 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-trigger-left">
         <span class="card-num">04</span>
         <div class="card-header-text">
-          <p class="card-title">AI-Native Systems</p>
-          <p class="card-subtitle">Not a buzzword. A working method.</p>
+          <p class="card-title">Systematize.</p>
+          <p class="card-subtitle">From tribal knowledge to AI-native process</p>
         </div>
       </div>
       <svg class="card-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -298,10 +298,10 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-body-inner">
         <div class="card-proof">
           <ul class="proof-list">
-            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">Build AI-powered qualification prompts that enforce deal standards automatically</span></li>
-            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">Design coaching frameworks that AI tools can evaluate calls against</span></li>
-            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">Create structured, markdown-native sales documentation queryable by AI</span></li>
-            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">Integrate customer data intelligence and intent signals into the daily operating rhythm</span></li>
+            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">I build AI-powered qualification prompts that enforce deal standards automatically.</span></li>
+            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">I design coaching frameworks that AI tools can evaluate calls against.</span></li>
+            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">I create structured, markdown-native sales documentation queryable by AI.</span></li>
+            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">I integrate customer data intelligence and intent signals into the daily operating rhythm.</span></li>
           </ul>
         </div>
       </div>
@@ -313,8 +313,8 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-trigger-left">
         <span class="card-num">05</span>
         <div class="card-header-text">
-          <p class="card-title">Market Expansion</p>
-          <p class="card-subtitle">English / Danish / German &mdash; three markets, one leader</p>
+          <p class="card-title">Expand.</p>
+          <p class="card-subtitle">From local success to international scale</p>
         </div>
       </div>
       <svg class="card-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -325,10 +325,10 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       <div class="card-body-inner">
         <div class="card-proof">
           <ul class="proof-list">
-            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">Sell across Europe and beyond, including the UK, Ireland, Germany, France, Spain, Nordics, and Benelux</span></li>
-            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">Sell in English, Danish, and German at a native or near-native level</span></li>
-            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">Manage regional differences in buying behavior, procurement, and culture</span></li>
-            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">15+ years of international channel and partner management across Europe and beyond</span></li>
+            <li class="proof-item"><span class="proof-num">01</span><span class="proof-text">I sell across Europe and beyond, including the UK, Ireland, Germany, France, Spain, Nordics, and Benelux.</span></li>
+            <li class="proof-item"><span class="proof-num">02</span><span class="proof-text">I sell in English, Danish, and German at a native or near-native level.</span></li>
+            <li class="proof-item"><span class="proof-num">03</span><span class="proof-text">I manage regional differences in buying behavior, procurement, and culture.</span></li>
+            <li class="proof-item"><span class="proof-num">04</span><span class="proof-text">I build and maintain international channel and partner relationships spanning 15+ years.</span></li>
           </ul>
         </div>
       </div>
@@ -351,6 +351,9 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
 
     trigger.addEventListener('click', () => {
       const isOpen = card.getAttribute('data-open') === 'true';
+      const hadOpenCard = [...cards].some(
+        (c) => c !== card && c.getAttribute('data-open') === 'true'
+      );
 
       // Close all cards
       cards.forEach((c) => {
@@ -363,6 +366,15 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
       if (!isOpen) {
         card.setAttribute('data-open', 'true');
         trigger.setAttribute('aria-expanded', 'true');
+
+        // On mobile: if another card was open before, scroll new card into view
+        // after the collapse + expand animation completes (~300ms)
+        if (hadOpenCard && window.innerWidth < 768) {
+          setTimeout(() => {
+            const top = card.getBoundingClientRect().top + window.scrollY - 16;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }, 300);
+        }
       }
     });
   });
