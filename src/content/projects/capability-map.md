@@ -33,10 +33,11 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
   }
 
   .capability-card {
-    border: 1px solid #e5e5e5;
+    border: 1px solid color-mix(in srgb, var(--card-accent, #aaaaaa) 28%, transparent);
     border-radius: 0;
-    background: #ffffff;
+    background: var(--card-bg, #ffffff);
     overflow: hidden;
+    transition: background 0.2s ease;
   }
   .capability-card + .capability-card {
     border-top: none;
@@ -65,10 +66,10 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
     transition: background 0.15s ease;
   }
   .card-trigger:hover {
-    background: #f9f9f9;
+    background: var(--card-hover, #f9f9f9);
   }
   .card-trigger:focus-visible {
-    outline: 2px solid #e8007d;
+    outline: 2px solid var(--card-accent, #e8007d);
     outline-offset: -2px;
   }
 
@@ -83,7 +84,7 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
   .card-num {
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.75rem;
-    color: #e8007d;
+    color: var(--card-accent, #e8007d);
     flex-shrink: 0;
     letter-spacing: 0.05em;
   }
@@ -103,7 +104,8 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
 
   .card-subtitle {
     font-size: 0.82rem;
-    color: #777777;
+    color: var(--card-accent, #777777);
+    opacity: 0.8;
     margin: 0;
     line-height: 1.4;
   }
@@ -117,7 +119,7 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
   }
   .capability-card[data-open="true"] .card-chevron {
     transform: rotate(180deg);
-    color: #e8007d;
+    color: var(--card-accent, #e8007d);
   }
 
   .card-body {
@@ -135,8 +137,8 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
 
   .card-proof {
     padding: 0 1.75rem 1.5rem 1.75rem;
-    border-top: 1px solid #f2f2f2;
-    background: #f9f9f9;
+    border-top: 1px solid color-mix(in srgb, var(--card-accent, #aaaaaa) 20%, transparent);
+    background: var(--card-hover, #f9f9f9);
   }
 
   .proof-list {
@@ -157,7 +159,7 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
   .proof-num {
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.7rem;
-    color: #e8007d;
+    color: var(--card-accent, #e8007d);
     flex-shrink: 0;
     margin-top: 0.2rem;
     letter-spacing: 0.05em;
@@ -198,7 +200,7 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
 
 <div class="capability-cards fade-in delay-1" id="capability-cards" role="list">
 
-  <div class="capability-card" data-open="false" role="listitem">
+  <div class="capability-card" data-open="false" role="listitem" style="--card-bg: #e8f5ec; --card-accent: #2d9d5f; --card-hover: #d6eddc;">
     <button class="card-trigger" aria-expanded="false" aria-controls="proof-1" id="trigger-1">
       <div class="card-trigger-left">
         <span class="card-num">01</span>
@@ -225,7 +227,7 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
     </div>
   </div>
 
-  <div class="capability-card" data-open="false" role="listitem">
+  <div class="capability-card" data-open="false" role="listitem" style="--card-bg: #e6f0fa; --card-accent: #2d7abd; --card-hover: #d4e5f5;">
     <button class="card-trigger" aria-expanded="false" aria-controls="proof-2" id="trigger-2">
       <div class="card-trigger-left">
         <span class="card-num">02</span>
@@ -252,7 +254,7 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
     </div>
   </div>
 
-  <div class="capability-card" data-open="false" role="listitem">
+  <div class="capability-card" data-open="false" role="listitem" style="--card-bg: #fce8f0; --card-accent: #bd2d6e; --card-hover: #f8d4e3;">
     <button class="card-trigger" aria-expanded="false" aria-controls="proof-3" id="trigger-3">
       <div class="card-trigger-left">
         <span class="card-num">03</span>
@@ -279,7 +281,7 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
     </div>
   </div>
 
-  <div class="capability-card" data-open="false" role="listitem">
+  <div class="capability-card" data-open="false" role="listitem" style="--card-bg: #faf3e4; --card-accent: #b8912d; --card-hover: #f3e8cc;">
     <button class="card-trigger" aria-expanded="false" aria-controls="proof-4" id="trigger-4">
       <div class="card-trigger-left">
         <span class="card-num">04</span>
@@ -306,7 +308,7 @@ tags: ["sales-leadership", "ai-native", "market-expansion"]
     </div>
   </div>
 
-  <div class="capability-card" data-open="false" role="listitem">
+  <div class="capability-card" data-open="false" role="listitem" style="--card-bg: #f0e8fa; --card-accent: #7a2dbd; --card-hover: #e3d4f5;">
     <button class="card-trigger" aria-expanded="false" aria-controls="proof-5" id="trigger-5">
       <div class="card-trigger-left">
         <span class="card-num">05</span>
