@@ -8,4 +8,8 @@ tailwindCdn: true
 
 import VehicleComparison from '../../components/VehicleComparison.jsx';
 
-<VehicleComparison client:load />
+<div style={{ width: "100vw", position: "relative", left: "50%", marginLeft: "-50vw" }}>
+  <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 1.5rem" }}>
+    <VehicleComparison client:load />
+  </div>
+</div>

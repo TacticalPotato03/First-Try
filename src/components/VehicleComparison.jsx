@@ -79,11 +79,7 @@ export default function VehicleComparison() {
 
   return (
     <div style={{ fontFamily: "'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif" }}
-      className="w-full max-w-5xl mx-auto px-4 py-6 md:px-8 md:py-8">
-      <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">Vehicle Replacement Analysis</h1>
-        <p className="text-gray-500 mt-1 text-sm">48-month total cost of ownership · All figures in DKK</p>
-      </div>
+      className="w-full">
       {showExplainer && (
         <Card className="mb-6 p-4 md:p-5 bg-sky-50/60 border-sky-200">
           <div className="flex justify-between items-start">
@@ -150,7 +146,7 @@ export default function VehicleComparison() {
           </div>
         </div>
       </Card>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         <Card className="p-4 md:p-5 border-2 border-orange-200 bg-orange-50/40">
           <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider">Current Vehicle</span>
           <h3 className="font-bold text-gray-900 mt-1 leading-tight">Peugeot 5008</h3>
