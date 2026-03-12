@@ -1,0 +1,120 @@
+---
+title: "The Spreadsheet That Never Was: Building a Family Decision Tool With AI"
+description: "Every family has a big purchase trapped in a spreadsheet nobody opens. I used AI to turn a car replacement analysis into an interactive tool my wife could explore from the bleachers at a handball game."
+pubDate: 2026-03-12
+heroImage: "/spreadsheet-never-was.png"
+tags: ["vibecoding", "ai", "building-in-public", "tools", "astro"]
+---
+
+import CardGrid from '../../components/CardGrid.astro';
+
+export const cards = [
+  {
+    title: "The Problem",
+    subtitle: "Spreadsheet Paralysis",
+    description: "Big family purchases get stuck in a 'we should sit down and look at this' loop that never finds 45 free minutes.",
+  },
+  {
+    title: "The Conversation",
+    subtitle: "Claude as Financial Analyst",
+    description: "A structured chat that gathered costs, corrected bad assumptions, and modeled three scenarios with adjustable inputs.",
+  },
+  {
+    title: "The Artifact",
+    subtitle: "Interactive React Component",
+    description: "A live comparison tool with sliders for insurance, fuel, and repair assumptions. Deployed to the family website.",
+  },
+  {
+    title: "The Deployment",
+    subtitle: "Claude Code on Astro",
+    description: "From chat artifact to published page in one command. The tool lives on the site, accessible from any phone.",
+  },
+  {
+    title: "The Audience",
+    subtitle: "My Wife at a Handball Game",
+    description: "No scheduled meeting required. She opened the link, moved the sliders, and formed her own conclusions in real time.",
+  },
+  {
+    title: "The Lesson",
+    subtitle: "Decisions as Products",
+    description: "AI collapses the gap between analysis and artifact. The deliverable is no longer a document. It is a tool.",
+  },
+];
+
+Every family has a spreadsheet that never gets opened.
+
+You know the one. The big purchase decision sitting in a Google Sheet or an Excel file, waiting for a mythical 45 minutes where both partners are free, focused, and willing to stare at rows and columns together. For us, it was the car. Our 2013 Peugeot 5008 was bleeding money in unpredictable repair cycles, and the question of when to switch to an electric vehicle had been circling for months without landing. Not because the data was missing. Because the format was wrong.
+
+I did not build a spreadsheet. I built [a tool](https://travis-campbell.com/projects/vehicle-replacement-analysis/). And the person who used it most was not me.
+
+---
+
+## The Old Way Dies Hard
+
+The traditional approach to a family vehicle decision looks like this: one partner does the research, dumps it into a spreadsheet with tabs for leasing terms and fuel costs and insurance quotes, and then tries to find a window where the other partner has the bandwidth to sit down and walk through it together. That window almost never opens cleanly. There are kids, there are schedules, there is always something more immediate.
+
+The spreadsheet becomes a guilt object. It represents work that was done but never shared effectively. The decision stalls not because the analysis is incomplete, but because the medium cannot travel. A spreadsheet requires explanation. It requires a presenter. It requires context that lives in the head of whoever built it.
+
+I wanted to skip all of that.
+
+---
+
+## The Conversation That Built the Model
+
+The analysis started as a chat with Claude. Not a blank spreadsheet, not a template. A conversation.
+
+I described the problem: family of five, three teenagers who are roughly 180 cm tall, 20,000 to 25,000 km per year, an annual winter trip to northern Sweden, and a diesel that was costing more in repairs than the car was worth. Claude asked for the data in batches. Current vehicle costs first. Then the EV options. Then the qualitative factors like range anxiety in sub-zero temperatures and whether three tall teenagers could actually sit side by side in the back seat.
+
+The process surfaced errors I would have baked into a spreadsheet and never caught. My initial fuel figure was wrong by more than 3,000 DKK per month. I had typed a cumulative odometer reading instead of an annual fuel cost, and the AI flagged the inconsistency immediately. In a spreadsheet, that number would have sat in cell B7 looking perfectly reasonable, quietly poisoning every downstream calculation.
+
+The real output of this conversation was not a table. It was a corrected mental model of what our car actually costs us every month, including the variance. Two out of three full years had repair bills above 43,000 DKK on a car worth 30,000. That pattern only becomes visible when you lay the years side by side and someone asks, "Does that average actually represent your experience?"
+
+---
+
+## From Chat to Component
+
+Claude did not just analyze the numbers. It generated a working React component, an interactive comparison tool with slider controls for every assumption that mattered: annual kilometers, electricity price, diesel price, wallbox installation cost, PV5 insurance estimate, and a toggle for whether repair costs would stay stable or continue rising.
+
+Three vehicle cards sit side by side. The Peugeot with its unpredictable monthly total. The Kia PV5 as the cost leader. The VW ID. Buzz as the premium alternative. Every card updates in real time as you move the sliders. The monthly "all in" number includes everything: lease payments, deposit amortized over 48 months, energy, insurance, road tax, and even the home charger installation spread across the lease term.
+
+The component also includes an insurance break even calculator. The Kia lease excludes insurance while the Buzz bundles it in, which makes the sticker price comparison misleading. The tool shows exactly what PV5 insurance would need to cost before the Buzz becomes the cheaper option. That single insight would have taken me 20 minutes to model in Excel. Here it was a slider.
+
+---
+
+## Deploying a Decision
+
+My blog runs on Astro. Astro has native React support with a single integration command. The component that Claude generated in the chat became a page on my website with one Claude Code session.
+
+The deployment was not seamless. The first version blew out my site's global CSS because Tailwind's preflight reset conflicted with my existing stylesheet. Every page on the site lost its centered layout. That took a revert and a second, more careful approach: loading Tailwind via CDN only on the comparison page and disabling preflight to protect the rest of the site. This is the kind of friction that AI tools do not warn you about, the integration seams where one system's defaults stomp on another system's assumptions.
+
+But the result was a live, interactive page at a URL I could text to anyone.
+
+---
+
+## The Handball Game Test
+
+Here is where the story diverges from every other "I built a thing with AI" post.
+
+My wife was at our daughter's handball game. I sent her the link. No preamble, no "when you get a chance, let us sit down and look at this." Just the URL and a one line message: "Play with the sliders."
+
+She opened it on her phone between periods. She moved the insurance slider and watched the Kia get cheaper. She toggled the repair trend to "rising" and saw the Peugeot's monthly cost jump. She formed her own conclusions without me standing over her shoulder narrating a spreadsheet.
+
+That is the difference. The spreadsheet requires a meeting. The tool requires a link.
+
+By the time she got home, we did not need 45 minutes. We needed five. She already understood the trade offs. The conversation was not "let me walk you through the numbers." It was "so what do you think about the Kia?" That is a fundamentally different starting point for a family decision.
+
+---
+
+## What This Actually Changes
+
+The vehicle comparison tool is a small project. A few hundred lines of React, some slider math, and a deployment pipeline I already had in place. The interesting part is not the code. It is the collapse of three separate activities into one fluid motion: research, analysis, and communication.
+
+In the old workflow, I would gather data, build a spreadsheet, schedule time with my wife, present the spreadsheet, answer questions, go back and adjust assumptions, and then reconvene. That cycle could take weeks for a decision this size. With AI generating both the analysis and the interactive artifact in a single conversation, the entire pipeline from "I wonder what this car costs" to "my wife is evaluating options on her phone" took one evening.
+
+The tool is live. The sliders are still waiting for real insurance quotes to replace the estimates. And the qualitative scorecard for winter range, teenager legroom, and the Sälen trip is next. But the financial picture is no longer trapped in a document that requires a meeting to unlock. It is a product that works on its own.
+
+---
+
+## The Build at a Glance
+
+<CardGrid cards={cards} />
