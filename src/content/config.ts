@@ -21,6 +21,7 @@ const projects = defineCollection({
     tags: z.array(z.string()).optional(),
     draft: z.boolean().optional(),
     tailwindCdn: z.boolean().optional(),
+    wide: z.boolean().optional(),
   }),
 });
 
