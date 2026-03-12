@@ -161,15 +161,9 @@ main { flex: 1; padding-block: clamp(3rem, 8vw, 6rem); }
   background-color: var(--color-text);
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
-.nav-toggle[aria-expanded="true"] span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.nav-toggle[aria-expanded="true"] span:nth-child(2) {
-  opacity: 0;
-}
-.nav-toggle[aria-expanded="true"] span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 .site-nav {
   display: flex;
@@ -186,9 +180,7 @@ main { flex: 1; padding-block: clamp(3rem, 8vw, 6rem); }
 .site-nav a:hover { color: var(--color-text); }
 
 @media (max-width: 767px) {
-  .nav-toggle {
-    display: flex;
-  }
+  .nav-toggle { display: flex; }
   .site-nav {
     display: none;
     flex-direction: column;
@@ -203,19 +195,10 @@ main { flex: 1; padding-block: clamp(3rem, 8vw, 6rem); }
     border-bottom: 1px solid var(--color-border);
     padding: 0.75rem var(--gap) 1.25rem;
   }
-  .site-nav.is-open {
-    display: flex;
-  }
-  .site-nav li {
-    border-bottom: 1px solid var(--color-border);
-  }
-  .site-nav li:last-child {
-    border-bottom: none;
-  }
-  .site-nav a {
-    display: block;
-    padding-block: 0.85rem;
-  }
+  .site-nav.is-open { display: flex; }
+  .site-nav li { border-bottom: 1px solid var(--color-border); }
+  .site-nav li:last-child { border-bottom: none; }
+  .site-nav a { display: block; padding-block: 0.85rem; }
 }
 
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
@@ -340,7 +323,7 @@ main { flex: 1; padding-block: clamp(3rem, 8vw, 6rem); }
   white-space: nowrap;
 }
 
-/* Project items have no thumbnail — use 2-column grid so content fills the width */
+/* Project items have no thumbnail: use 2-column grid so content fills width */
 .project-item a {
   grid-template-columns: 1fr auto;
 }
