@@ -37,6 +37,7 @@ export default function VehicleComparison() {
   const [dieselPrice, setDieselPrice] = useState(12.5);
   const [pv5Insurance, setPv5Insurance] = useState(650);
   const [showExplainer, setShowExplainer] = useState(true);
+  const [tradeIn, setTradeIn] = useState(30000);
 
   const calc = useMemo(() => {
     const months = 48;
@@ -55,7 +56,8 @@ export default function VehicleComparison() {
       const elCost = ((annualKm / 100) * consumption * elPrice) / 12;
       const insurance = insIncluded ? 0 : separateIns;
       const roadTax = 920 / 12;
-      const depAmort = (deposit + depositExtra) / months;
+      const effectiveDeposit = Math.max(0, deposit + depositExtra - tradeIn);
+      const depAmort = effectiveDeposit / months;
       const m = {
         lease: monthlyPay, depositAmort: depAmort, electricity: elCost,
         insurance, roadTax, wallbox: wallboxMonthly, winterTires, towHitch,
@@ -71,7 +73,7 @@ export default function VehicleComparison() {
     const pv5NoIns = pv5.monthly.total - pv5Insurance;
     const breakEvenIns = Math.round(buzzLife.monthly.total - pv5NoIns);
     return { peugeot, evs, lowestIdx, months, breakEvenIns };
-  }, [elPrice, annualKm, wallboxCost, repairTrend, dieselPrice, pv5Insurance]);
+  }, [elPrice, annualKm, wallboxCost, repairTrend, dieselPrice, pv5Insurance, tradeIn]);
 
   const accentText = ["text-blue-600", "text-emerald-600", "text-violet-600"];
   const accentBorder = ["border-blue-300", "border-emerald-300", "border-violet-300"];
@@ -139,6 +141,12 @@ export default function VehicleComparison() {
               ))}
             </div>
           </div>
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">Peugeot trade-in (DKK)<InfoTip text="Estimated sale or trade-in value of the Peugeot. Reduces the upfront cash needed for the EV, which lowers the amortized deposit in the monthly calculation." /></label>
+            <input type="range" min={0} max={40000} step={5000} value={tradeIn}
+              onChange={e => setTradeIn(Number(e.target.value))} className="w-full accent-orange-600" />
+            <div className="text-sm font-semibold text-orange-600 mt-1">{formatDKK(tradeIn)}</div>
+          </div>
           <div className="col-span-2 flex items-center">
             <div className="text-xs text-gray-400 leading-relaxed bg-gray-50 rounded-lg p-3">
               <span className="font-semibold text-gray-600">Insurance break-even:</span> PV5 and Buzz Life cost the same when PV5 insurance is ~<span className="font-bold text-blue-600">{formatDKK(calc.breakEvenIns)}/mo</span>. Below that, PV5 wins.
@@ -162,6 +170,11 @@ export default function VehicleComparison() {
           <div className="mt-4 pt-3 border-t border-orange-200 space-y-1 text-xs">
             <div className="flex justify-between"><span className="text-gray-400">48-mo total</span><span className="font-bold text-gray-700">{formatDKK(Math.round(calc.peugeot.total * 48))}</span></div>
             <div className="flex justify-between"><span className="text-gray-400">Residual value</span><span className="text-gray-500">~{formatDKK(30000)} (declining)</span></div>
+            {tradeIn > 0 && (
+              <div className="text-xs text-orange-600 mt-2">
+                Est. trade-in value: {formatDKK(tradeIn)}
+              </div>
+            )}
           </div>
         </Card>
         {calc.evs.map((ev, i) => {
@@ -176,7 +189,7 @@ export default function VehicleComparison() {
               <p className={`text-xs font-bold mt-1 mb-4 ${ev.delta > 0 ? "text-red-500" : "text-emerald-600"}`}>{ev.delta > 0 ? "+" : ""}{formatDKK(Math.round(ev.delta))} vs. Peugeot</p>
               <div className="space-y-2 text-xs border-t border-gray-200 pt-3">
                 <div className="flex justify-between"><span className="text-gray-500">Lease {ev.insIncluded ? "(incl. ins.)" : ""}</span><span className="font-medium">{formatDKK(ev.monthlyPay)}</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">Deposit (amort.)<InfoTip text={`${formatDKK(ev.deposit + ev.depositExtra)} upfront over 48 months`} /></span><span className="font-medium">{formatDKK(Math.round(ev.monthly.depositAmort))}</span></div>
+                <div className="flex justify-between"><span className="text-gray-500">Deposit (amort.)<InfoTip text={`${formatDKK(ev.deposit + ev.depositExtra)} deposit minus ${formatDKK(tradeIn)} trade-in = ${formatDKK(Math.max(0, ev.deposit + ev.depositExtra - tradeIn))} net, spread over 48 months`} /></span><span className="font-medium">{formatDKK(Math.round(ev.monthly.depositAmort))}</span></div>
                 <div className="flex justify-between"><span className="text-gray-500">Electricity</span><span className="font-medium text-emerald-600">{formatDKK(Math.round(ev.monthly.electricity))}</span></div>
                 {!ev.insIncluded && (<div className="flex justify-between"><span className="text-gray-500">Insurance<InfoTip text="Not included in Kia lease." /></span><span className="font-medium text-blue-600">{formatDKK(ev.monthly.insurance)}</span></div>)}
                 <div className="flex justify-between"><span className="text-gray-500">Road tax</span><span className="font-medium">{formatDKK(Math.round(ev.monthly.roadTax))}</span></div>
@@ -204,7 +217,15 @@ export default function VehicleComparison() {
               </div>
               <div className="mt-4 pt-3 border-t border-gray-200 text-xs space-y-1">
                 <div className="flex justify-between"><span className="text-gray-400">48-mo total</span><span className="font-bold text-gray-700">{formatDKK(Math.round(ev.total48))}</span></div>
-                <div className="flex justify-between"><span className="text-gray-400">Upfront cash</span><span className="text-gray-500">{formatDKK(ev.deposit + ev.depositExtra)}</span></div>
+                <div className="flex justify-between"><span className="text-gray-400">Upfront cash</span><span className="text-gray-500">{formatDKK(Math.max(0, ev.deposit + ev.depositExtra - tradeIn))}</span></div>
+                {tradeIn > 0 && (
+                  <div className="flex justify-between mt-1">
+                    <span className="text-gray-400">Before trade-in</span>
+                    <span className="text-gray-400 line-through">
+                      {formatDKK(ev.deposit + ev.depositExtra)}
+                    </span>
+                  </div>
+                )}
               </div>
             </Card>
           );
