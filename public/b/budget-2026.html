@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Budget 2026–2027</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f3;
+    --bg3: #efefec;
+    --text: #1a1a18;
+    --text2: #6b6b67;
+    --text3: #9b9b96;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.2);
+    --radius: 8px;
+    --radius-lg: 12px;
+    --pos: #1D9E75;
+    --neg: #E24B4A;
+    --wrn: #BA7517;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2b;
+      --text: #f0f0ec;
+      --text2: #a0a09b;
+      --text3: #6b6b67;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.2);
+    }
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0 0 4rem;
+  }
+  /* PIN SCREEN */
+  #pin-screen {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .pin-card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem 2.5rem;
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+  }
+  .pin-card h2 { font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+  .pin-card p { font-size: 13px; color: var(--text2); margin-bottom: 1.5rem; }
+  .pin-input {
+    width: 100%; padding: 10px 12px; font-size: 20px; letter-spacing: 0.3em;
+    text-align: center; border: 0.5px solid var(--border2);
+    border-radius: var(--radius); background: var(--bg);
+    color: var(--text); margin-bottom: 1rem;
+  }
+  .pin-btn {
+    width: 100%; padding: 10px; font-size: 14px; font-weight: 500;
+    border: none; border-radius: var(--radius); background: var(--text);
+    color: var(--bg); cursor: pointer;
+  }
+  .pin-error { font-size: 12px; color: var(--neg); margin-top: 8px; display: none; }
+  /* LAYOUT */
+  #app { display: none; max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 0.5px solid var(--border); }
+  header h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+  header p { font-size: 13px; color: var(--text2); }
+  section { margin-bottom: 3rem; }
+  .section-title {
+    font-size: 11px; font-weight: 500; color: var(--text2);
+    text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1rem;
+  }
+  /* CARDS */
+  .card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+  /* METRIC GRID */
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .metric-card { background: var(--bg2); border-radius: var(--radius); padding: 12px 14px; }
+  .metric-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+  .metric-value { font-size: 20px; font-weight: 500; }
+  .pos { color: var(--pos); } .neg { color: var(--neg); } .wrn { color: var(--wrn); }
+  /* OPTION BUTTONS */
+  .og { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 8px; }
+  .ob {
+    border: 0.5px solid var(--border2); border-radius: var(--radius);
+    padding: 10px 12px; cursor: pointer; background: var(--bg); text-align: left;
+  }
+  .ob.sel { border: 2px solid #378ADD; background: rgba(55,138,221,0.08); }
+  .ob .on { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+  .ob .op { font-size: 15px; font-weight: 500; }
+  .ob .od { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; white-space: pre-line; }
+  .ob .odelta { font-size: 11px; margin-top: 2px; color: var(--neg); }
+  /* SELECTOR ROW */
+  .selector-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+  .sb {
+    border: 0.5px solid var(--border2); border-radius: var(--radius);
+    padding: 5px 12px; cursor: pointer; background: var(--bg);
+    font-size: 12px; color: var(--text2);
+  }
+  .sb.sel { border: 2px solid #378ADD; background: rgba(55,138,221,0.08); color: #185FA5; font-weight: 500; }
+  .slabel { font-size: 12px; color: var(--text2); margin-right: 2px; }
+  /* YEAR GRID */
+  .yr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+  .yr-card { background: var(--bg2); border-radius: var(--radius-lg); padding: 14px 16px; }
+  .yr-title { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 8px; }
+  .yr-net { font-size: 26px; font-weight: 500; margin-bottom: 3px; }
+  .yr-sub { font-size: 12px; color: var(--text2); }
+  /* TABLE */
+  .rt { width: 100%; font-size: 13px; border-collapse: collapse; }
+  .rt th { text-align: left; color: var(--text2); font-weight: 500; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
+  .rt th:not(:first-child) { text-align: right; }
+  .rt td { padding: 5px 0; border-bottom: 0.5px solid var(--border); color: var(--text); }
+  .rt td:not(:first-child) { text-align: right; }
+  .rt .tr td { font-weight: 500; border-top: 1px solid var(--border2); border-bottom: none; padding-top: 8px; }
+  .rt .sr td { color: var(--text2); font-size: 12px; padding-left: 14px; }
+  .rt .sr td:not(:first-child) { color: var(--text2); }
+  .rt .hi td { background: var(--bg2); font-weight: 500; }
+  /* NOTE BOXES */
+  .nb { border-left: 2px solid #378ADD; background: var(--bg2); padding: 8px 12px; font-size: 12px; color: var(--text2); margin-bottom: 12px; line-height: 1.6; border-radius: 0; }
+  .nb.am { border-left-color: #EF9F27; }
+  .nb.gr { border-left-color: #639922; }
+  .nb.rd { border-left-color: #E24B4A; }
+  /* DIVIDER */
+  .dv { border: none; border-top: 0.5px solid var(--border); margin: 1.5rem 0; }
+  hr.section-dv { border: none; border-top: 1px solid var(--border2); margin: 3rem 0; }
+  /* LEGEND */
+  .leg { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; font-size: 11px; color: var(--text2); }
+  .leg span { display: flex; align-items: center; gap: 4px; }
+  .ld { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  /* TOOLTIP */
+  .tooltip-box {
+    position: fixed; background: var(--bg); border: 0.5px solid var(--border2);
+    border-radius: var(--radius-lg); padding: 12px 14px; font-size: 12px;
+    pointer-events: none; z-index: 999; min-width: 210px; display: none;
+  }
+  .tt-title { font-size: 13px; font-weight: 500; margin-bottom: 8px; border-bottom: 0.5px solid var(--border); padding-bottom: 6px; }
+  .tt-row { display: flex; justify-content: space-between; gap: 16px; padding: 2px 0; }
+  .tt-cat { color: var(--text2); }
+  .tt-val { font-weight: 500; }
+  .tt-pct { color: var(--text2); font-size: 11px; min-width: 32px; text-align: right; }
+  .tt-total { border-top: 0.5px solid var(--border); margin-top: 6px; padding-top: 6px; font-weight: 500; }
+  /* CUT ROWS */
+  .cut-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 0.5px solid var(--border); }
+  .cut-check { width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; accent-color: var(--pos); }
+  .cut-name { font-size: 13px; flex: 1; }
+  .cut-mo { font-size: 12px; color: var(--text2); min-width: 60px; text-align: right; }
+  .cut-amt { font-size: 13px; font-weight: 500; min-width: 75px; text-align: right; }
+  .cut-summary { margin-top: 12px; padding: 12px 14px; background: var(--bg2); border-radius: var(--radius); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  /* JOB LOSS SELECTOR */
+  .jl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+  /* NORDNET ROW */
+  .nordnet-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border); flex-wrap: wrap; }
+  .nordnet-label { font-size: 13px; color: var(--text2); flex: 1; min-width: 180px; }
+  input[type=number] {
+    width: 110px; padding: 6px 8px; font-size: 14px;
+    border: 0.5px solid var(--border2); border-radius: var(--radius);
+    background: var(--bg); color: var(--text);
+  }
+  select {
+    padding: 5px 8px; font-size: 13px; border: 0.5px solid var(--border2);
+    border-radius: var(--radius); background: var(--bg); color: var(--text);
+  }
+  footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 0.5px solid var(--border); font-size: 11px; color: var(--text3); }
+  @media (max-width: 560px) {
+    .yr-grid { grid-template-columns: 1fr; }
+    .jl-grid { grid-template-columns: 1fr; }
+    #app { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<!-- PIN SCREEN -->
+<div id="pin-screen">
+  <div class="pin-card">
+    <h2>Budget 2026–2027</h2>
+    <p>Enter your PIN to continue</p>
+    <input type="password" class="pin-input" id="pin-input" maxlength="6" placeholder="• • • • • •" onkeydown="if(event.key==='Enter')checkPin()">
+    <button class="pin-btn" onclick="checkPin()">Unlock</button>
+    <p class="pin-error" id="pin-error">Incorrect PIN</p>
+  </div>
+</div>
+<!-- MAIN APP -->
+<div id="app">
+  <header>
+    <h1>Budget 2026–2027</h1>
+    <p>Family household — annual plan, job loss scenarios, and cost cut analysis. Based on 2025 SPIIR actuals.</p>
+  </header>
+  <!-- SECTION 1: ANNUAL OVERVIEW -->
+  <section id="s-overview">
+    <p class="section-title">1. Annual budget overview</p>
+    <div class="card">
+      <div style="margin-bottom:10px;">
+        <div class="selector-row">
+          <span class="slabel">Car:</span>
+          <div id="car-opts-ov"></div>
+        </div>
+        <div class="selector-row">
+          <span class="slabel">Mortgage:</span>
+          <div id="mort-opts-ov"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;">
+          <span style="font-size:12px;color:var(--text2);">Mortgage display:</span>
+          <select id="tax-sel" onchange="renderAll()">
+            <option value="net" selected>After-tax (rentefradrag)</option>
+            <option value="gross">Gross</option>
+          </select>
+          <span style="font-size:12px;color:var(--text2);margin-left:12px;">Nordnet monthly:</span>
+          <input type="number" id="nordnet-mo" value="10000" step="500" style="width:100px;" onchange="renderAll()">
+          <span style="font-size:12px;color:var(--text2);">DKK</span>
+        </div>
+      </div>
+    </div>
+    <div id="ov-metrics" class="metric-grid"></div>
+    <div class="yr-grid" id="ov-yr"></div>
+    <div class="leg">
+      <span><span class="ld" style="background:#B5D4F4"></span>Income</span>
+      <span><span class="ld" style="background:#85B7EB"></span>Base <em style="font-style:normal;font-size:10px;">(hover for breakdown)</em></span>
+      <span><span class="ld" style="background:#9FE1CB"></span>Renovation</span>
+      <span><span class="ld" style="background:#FAC775"></span>Car</span>
+      <span><span class="ld" style="background:#F7C1C1"></span>Mortgage</span>
+      <span><span class="ld" style="background:#AFA9EC"></span>Nordnet</span>
+      <span><span class="ld" style="background:#C0DD97"></span>Free cash</span>
+    </div>
+    <div style="position:relative;width:100%;height:300px;margin-bottom:8px;">
+      <canvas id="mainChart"></canvas>
+    </div>
+    <div class="card">
+      <table class="rt" id="ov-table"></table>
+    </div>
+    <p style="font-size:11px;color:var(--text2);" id="ov-footnote"></p>
+  </section>
+  <hr class="section-dv">
+  <!-- SECTION 2: JOB LOSS -->
+  <section id="s-jobloss">
+    <p class="section-title">2. Job loss scenario</p>
+    <div class="nb rd">Full-year worst case — job loss from January, dagpenge at 90% of salary up to 19,322 DKK/mo ceiling. Uses car and mortgage selected above.</div>
+    <div class="jl-grid">
+      <button class="ob sel" id="jl-travis" onclick="setJL('travis')">
+        <div class="on">Travis loses job</div>
+        <div class="op" id="jl-t-inc">—</div>
+        <div class="od">Dagpenge replaces base salary
+Commission lost entirely</div>
+      </button>
+      <button class="ob" id="jl-wife" onclick="setJL('wife')">
+        <div class="on">Wife loses job</div>
+        <div class="op" id="jl-w-inc">—</div>
+        <div class="od">Dagpenge replaces her salary
+Travis commission retained</div>
+      </button>
+    </div>
+    <div class="nordnet-row" style="margin-bottom:1rem;">
+      <span class="nordnet-label">Nordnet contribution during job loss</span>
+      <input type="number" id="jl-nordnet" value="0" step="500" onchange="renderJL()">
+      <span style="font-size:13px;color:var(--text2);">DKK/mo</span>
+    </div>
+    <div class="yr-grid" id="jl-yr"></div>
+    <div class="card"><table class="rt" id="jl-table"></table></div>
+    <div id="jl-note"></div>
+    <p style="font-size:11px;color:var(--text2);margin-top:8px;">Dagpenge ceiling 19,322 DKK/mo after tax. Wife's December bonus excluded from stress scenario. Lønsikring (485/mo, +10,000 benefit) not included — consider adding for Travis given his salary is well above dagpenge ceiling.</p>
+  </section>
+  <hr class="section-dv">
+  <!-- SECTION 3: COST CUTS -->
+  <section id="s-cuts">
+    <p class="section-title">3. Cost cut analysis</p>
+    <div class="nb am">Tick the cuts you would make under financial pressure. All figures from 2025 SPIIR actuals. Total saving updates live.</div>
+    <div id="cuts-list"></div>
+    <div class="cut-summary">
+      <div>
+        <div style="font-size:13px;font-weight:500;">Total selected savings</div>
+        <div style="font-size:11px;color:var(--text2);">Annual reduction in outgoings</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:22px;font-weight:500;color:var(--pos);" id="cut-total">0 kr</div>
+        <div style="font-size:12px;color:var(--pos);" id="cut-mo-total">0/mo</div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <p>Built from 2025 SPIIR transaction data. Income based on salary + commission average + child benefit — crypto sales and one-off transfers excluded. Renovation budget 65,000/yr from 2022–2025 historical average. Tax settlement (140k) excluded as non-recurring. Mortgage after-tax applies 33% rentefradrag to interest portion year 1.</p>
+    <p style="margin-top:6px;">Last updated: March 2026</p>
+  </footer>
+</div>
+<!-- TOOLTIP -->
+<div class="tooltip-box" id="tooltip">
+  <div class="tt-title" id="tt-title"></div>
+  <div id="tt-body"></div>
+</div>
+<script>
+// ── PIN ──────────────────────────────────────────────────────────────
+const PIN = '2026';
+function checkPin() {
+  const v = document.getElementById('pin-input').value;
+  if (v === PIN) {
+    document.getElementById('pin-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    renderAll();
+  } else {
+    document.getElementById('pin-error').style.display = 'block';
+    document.getElementById('pin-input').value = '';
+  }
+}
+document.getElementById('pin-input').addEventListener('keydown', e => { if(e.key==='Enter') checkPin(); });
+// ── DATA ─────────────────────────────────────────────────────────────
+const fmt = n => Math.round(n).toLocaleString('da-DK');
+const fmtK = n => Math.round(n/1000) + 'k';
+const CARS = [
+  { id:'peugeot', name:'Peugeot 5008', mo:5853, cm:13, detail:'Keep current car\nNo change, no upfront', delta:0 },
+  { id:'kia', name:'Kia PV5', mo:6892, cm:8, detail:'From August\nUpfront: 32,495 kr', delta:+1039 },
+  { id:'buzzlife', name:'ID. Buzz Life', mo:7477, cm:4, detail:'From April\nUpfront: 15,000 kr (after trade-in)\n48-mo total: 358,896 kr', delta:+1624 },
+  { id:'buzzstyle', name:'ID. Buzz Style', mo:8844, cm:4, detail:'From April\nUpfront: 15,000 kr (after trade-in)\n48-mo total: 424,488 kr', delta:+2991 },
+];
+const MORTS = [
+  { id:'curr', name:'Current', gross_mo:1035, net_mo:694, cm:13, detail:'Interest-only\n3,105 kr/quarter' },
+  { id:'f5', name:'F5 · 2.7%', gross_mo:9619, net_mo:7893, cm:7, detail:'Refinance July\nGross 9,619/mo' },
+  { id:'30yr', name:'30yr · 4.0%', gross_mo:10277, net_mo:8427, cm:7, detail:'Refinance July\nGross 10,277/mo' },
+];
+const INCOME = 1_191_048;
+const RENO = 65_000;
+const CURR_CAR = 5_853;
+const CURR_MORT_NET = 694;
+const CURR_MORT_GROSS = 1_035;
+const TRAVIS_BASE = 42_296;
+const TRAVIS_COMM = 7_948;
+const WIFE_BASE = 39_606;
+const CHILD = 30_265;
+const DAGPENGE = 19_322;
+const BASE_CATS = [
+  { name:'Leisure', val:309_810, color:'#378ADD' },
+  { name:'Household / groceries', val:185_734, color:'#1D9E75' },
+  { name:'Travel', val:221_545, color:'#D85A30' },
+  { name:'Basic expenses', val:142_745, color:'#BA7517' },
+  { name:'Utilities', val:53_004, color:'#7F77DD' },
+  { name:'Building insurance', val:28_668, color:'#534AB7' },
+  { name:'Garden & plants', val:2_268, color:'#639922' },
+  { name:'Other (fees, fines)', val:2_784, color:'#888780' },
+];
+const BASE_TOTAL = BASE_CATS.reduce((s,c)=>s+c.val,0);
+const CUTS = [
+  { name:'Travel — flights & hotels', annual:82891, mo:6908, checked:false },
+  { name:'Travel — vacation activities', annual:138654, mo:11555, checked:false },
+  { name:'Clothing & accessories', annual:53620, mo:4468, checked:false },
+  { name:'Restaurants & bars', annual:50039, mo:4170, checked:false },
+  { name:'Hairdresser & personal care', annual:37124, mo:3094, checked:false },
+  { name:'Gifts & charity', annual:25578, mo:2132, checked:false },
+  { name:'Nordnet savings (reduce/pause)', annual:120000, mo:10000, checked:false },
+  { name:'Furniture & interior (defer)', annual:24764, mo:2064, checked:false },
+  { name:'Cinema, concerts & entertainment', annual:22462, mo:1872, checked:false },
+  { name:'Sports & leisure', annual:21686, mo:1807, checked:false },
+  { name:'Fast food & takeaway', annual:14675, mo:1223, checked:false },
+  { name:'Electronics (defer)', annual:10892, mo:908, checked:false },
+  { name:'TV & streaming (partial)', annual:8000, mo:667, checked:false },
+  { name:'Hobby & sports equipment', annual:4230, mo:353, checked:false },
+  { name:'Online services & software', annual:3631, mo:303, checked:false },
+];
+let selCar = 'buzzlife';
+let selMort = 'f5';
+let selJL = 'travis';
+let mainChart = null;
+function ac(before, after, cm) {
+  const b = Math.min(cm-1, 12);
+  return before*b + after*(12-b);
+}
+// ── SELECTORS ────────────────────────────────────────────────────────
+function buildCarOpts(containerId) {
+  document.getElementById(containerId).innerHTML = CARS.map(c => {
+    const ds = c.delta===0 ? '' : `<span style="font-size:11px;color:var(--neg);margin-left:6px;">+${fmt(c.delta)}/mo</span>`;
+    return `<button class="sb ${c.id===selCar?'sel':''}" onclick="selC('${c.id}')">${c.name} ${fmt(c.mo)}${ds}</button>`;
+  }).join('');
+}
+function buildMortOpts(containerId) {
+  const useNet = document.getElementById('tax-sel').value === 'net';
+  document.getElementById(containerId).innerHTML = MORTS.map(m => {
+    const val = useNet ? m.net_mo : m.gross_mo;
+    return `<button class="sb ${m.id===selMort?'sel':''}" onclick="selM('${m.id}')">${m.name} ${fmt(val)}/mo</button>`;
+  }).join('');
+}
+function selC(id) { selCar=id; renderAll(); }
+function selM(id) { selMort=id; renderAll(); }
+function setJL(who) { selJL=who; renderJL(); }
+// ── MAIN RENDER ──────────────────────────────────────────────────────
+function renderAll() {
+  buildCarOpts('car-opts-ov');
+  buildMortOpts('mort-opts-ov');
+  renderOverview();
+  renderJL();
+  renderCuts();
+}
+function renderOverview() {
+  const useNet = document.getElementById('tax-sel').value === 'net';
+  const nordnetMo = +document.getElementById('nordnet-mo').value || 0;
+  const nordnetAnnual = nordnetMo * 12;
+  const car = CARS.find(c=>c.id===selCar);
+  const mort = MORTS.find(m=>m.id===selMort);
+  const mortMo = useNet ? mort.net_mo : mort.gross_mo;
+  const currMortMo = useNet ? CURR_MORT_NET : CURR_MORT_GROSS;
+  const car26 = ac(CURR_CAR, car.mo, car.cm);
+  const mort26 = ac(currMortMo, mortMo, mort.cm);
+  const exp26 = BASE_TOTAL + RENO + car26 + mort26 + nordnetAnnual;
+  const net26 = INCOME - exp26;
+  const car27 = (car.cm<=12 ? car.mo : CURR_CAR) * 12;
+  const mort27 = (mort.cm<=12 ? mortMo : currMortMo) * 12;
+  const exp27 = BASE_TOTAL + RENO + car27 + mort27 + nordnetAnnual;
+  const net27 = INCOME - exp27;
+  const c26 = net26>=40000?'pos':net26>=0?'wrn':'neg';
+  const c27 = net27>=40000?'pos':net27>=0?'wrn':'neg';
+  // Metrics
+  document.getElementById('ov-metrics').innerHTML = `
+    <div class="metric-card"><div class="metric-label">Annual income</div><div class="metric-value">${fmt(INCOME)}</div></div>
+    <div class="metric-card"><div class="metric-label">2026 total outgoings</div><div class="metric-value">${fmt(exp26)}</div></div>
+    <div class="metric-card"><div class="metric-label">2026 free cash flow</div><div class="metric-value ${c26}">${net26>=0?'+':''}${fmt(net26)}</div></div>
+    <div class="metric-card"><div class="metric-label">2027 total outgoings</div><div class="metric-value">${fmt(exp27)}</div></div>
+    <div class="metric-card"><div class="metric-label">2027 free cash flow</div><div class="metric-value ${c27}">${net27>=0?'+':''}${fmt(net27)}</div></div>
+    <div class="metric-card"><div class="metric-label">Monthly avg 2027</div><div class="metric-value ${c27}">${net27>=0?'+':''}${fmt(Math.round(net27/12))}</div></div>
+  `;
+  // Year cards
+  document.getElementById('ov-yr').innerHTML = `
+    <div class="yr-card">
+      <div class="yr-title">2026 — transition year</div>
+      <div class="yr-net ${c26}">${net26>=0?'+':''}${fmt(net26)}</div>
+      <div class="yr-sub">${fmt(Math.round(net26/12))}/mo true free cash flow</div>
+    </div>
+    <div class="yr-card">
+      <div class="yr-title">2027 — full year at new rates</div>
+      <div class="yr-net ${c27}">${net27>=0?'+':''}${fmt(net27)}</div>
+      <div class="yr-sub">${fmt(Math.round(net27/12))}/mo true free cash flow</div>
+    </div>
+  `;
+  // Table
+  document.getElementById('ov-table').innerHTML = `
+    <tr><th>Line item</th><th>2026 annual</th><th>2026 /mo</th><th>2027 annual</th><th>2027 /mo</th></tr>
+    <tr><td>Income</td><td>${fmt(INCOME)}</td><td>${fmt(Math.round(INCOME/12))}</td><td>${fmt(INCOME)}</td><td>${fmt(Math.round(INCOME/12))}</td></tr>
+    <tr class="tr"><td>Expenses</td><td></td><td></td><td></td><td></td></tr>
+    <tr class="sr"><td>Recurring base (leisure, groceries, basics, utilities, travel)</td><td>${fmt(BASE_TOTAL)}</td><td>${fmt(Math.round(BASE_TOTAL/12))}</td><td>${fmt(BASE_TOTAL)}</td><td>${fmt(Math.round(BASE_TOTAL/12))}</td></tr>
+    <tr class="sr"><td>Home maintenance budget</td><td>${fmt(RENO)}</td><td>${fmt(Math.round(RENO/12))}</td><td>${fmt(RENO)}</td><td>${fmt(Math.round(RENO/12))}</td></tr>
+    <tr class="sr"><td>Car costs</td><td>${fmt(car26)}</td><td>${fmt(Math.round(car26/12))}</td><td>${fmt(car27)}</td><td>${fmt(Math.round(car27/12))}</td></tr>
+    <tr class="sr"><td>Mortgage ${useNet?'(after-tax)':'(gross)'}</td><td>${fmt(mort26)}</td><td>${fmt(Math.round(mort26/12))}</td><td>${fmt(mort27)}</td><td>${fmt(Math.round(mort27/12))}</td></tr>
+    <tr class="sr hi"><td>Nordnet monthly investment</td><td>${fmt(nordnetAnnual)}</td><td>${fmt(nordnetMo)}</td><td>${fmt(nordnetAnnual)}</td><td>${fmt(nordnetMo)}</td></tr>
+    <tr class="tr"><td>Total outgoings</td><td>${fmt(exp26)}</td><td>${fmt(Math.round(exp26/12))}</td><td>${fmt(exp27)}</td><td>${fmt(Math.round(exp27/12))}</td></tr>
+    <tr class="tr"><td>True free cash flow</td>
+      <td class="${c26}">${net26>=0?'+':''}${fmt(net26)}</td><td class="${c26}">${net26>=0?'+':''}${fmt(Math.round(net26/12))}</td>
+      <td class="${c27}">${net27>=0?'+':''}${fmt(net27)}</td><td class="${c27}">${net27>=0?'+':''}${fmt(Math.round(net27/12))}</td></tr>
+  `;
+  document.getElementById('ov-footnote').innerHTML =
+    `Income: salary (96,082/mo avg) + commission (7,948/mo avg) + child benefit (2,522/mo). Renovation budget 65,000/yr. ` +
+    `2026 car cost is partial year — ${car.name} from month ${car.cm}. Mortgage refinance from July 2026.`;
+  // Chart
+  const labels = ["'26 inc","'26 base","'26 reno","'26 car","'26 mort","'26 save","'26 free","'27 inc","'27 base","'27 reno","'27 car","'27 mort","'27 save","'27 free"];
+  const data = [INCOME,BASE_TOTAL,RENO,car26,mort26,nordnetAnnual,net26,INCOME,BASE_TOTAL,RENO,car27,mort27,nordnetAnnual,net27];
+  const colors = ['#B5D4F4','#85B7EB','#9FE1CB','#FAC775','#F7C1C1','#AFA9EC',net26>=0?'#C0DD97':'#F09595','#B5D4F4','#85B7EB','#9FE1CB','#FAC775','#F7C1C1','#AFA9EC',net27>=0?'#C0DD97':'#F09595'];
+  window._chartData = { labels, data };
+  const ctx = document.getElementById('mainChart');
+  if (mainChart) { mainChart.destroy(); mainChart = null; }
+  mainChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        y: { ticks: { callback: v => fmtK(v)+'k', color: getComputedStyle(document.body).getPropertyValue('--text2') || '#888' } },
+        x: { ticks: { autoSkip: false, maxRotation: 40, font: { size: 10 } } }
+      },
+      onHover: (evt, elements) => {
+        if (elements.length > 0) {
+          showTooltip(evt, elements[0].index, labels, data);
+          ctx.style.cursor = (elements[0].index===1||elements[0].index===8) ? 'pointer' : 'default';
+        } else {
+          hideTooltip();
+          ctx.style.cursor = 'default';
+        }
+      }
+    }
+  });
+}
+function showTooltip(evt, idx, labels, data) {
+  const tt = document.getElementById('tooltip');
+  const isBase = idx===1||idx===8;
+  const year = idx<=6 ? '2026' : '2027';
+  document.getElementById('tt-title').textContent = isBase ? `Recurring base — ${year}` : labels[idx].replace("'26 ","2026 ").replace("'27 ","2027 ");
+  if (isBase) {
+    document.getElementById('tt-body').innerHTML =
+      BASE_CATS.map(c=>`<div class="tt-row"><span class="tt-cat"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${c.color};margin-right:4px;"></span>${c.name}</span><span class="tt-val">${fmt(c.val)}</span><span class="tt-pct">${Math.round(c.val/BASE_TOTAL*100)}%</span></div>`).join('') +
+      `<div class="tt-row tt-total"><span class="tt-cat">Total</span><span class="tt-val">${fmt(BASE_TOTAL)}</span><span class="tt-pct">100%</span></div>`;
+  } else {
+    const val = data[idx];
+    document.getElementById('tt-body').innerHTML = `
+      <div class="tt-row"><span class="tt-cat">Annual</span><span class="tt-val">${fmt(val)} kr</span></div>
+      <div class="tt-row"><span class="tt-cat">Monthly avg</span><span class="tt-val">${fmt(Math.round(val/12))} kr</span></div>`;
+  }
+  const x = evt.native.clientX, y = evt.native.clientY;
+  const ttW = 220;
+  tt.style.left = (x+ttW+20>window.innerWidth ? x-ttW-10 : x+12) + 'px';
+  tt.style.top = (y-10) + 'px';
+  tt.style.display = 'block';
+}
+function hideTooltip() { document.getElementById('tooltip').style.display='none'; }
+document.addEventListener('mousemove', e => { if(!document.getElementById('mainChart').matches(':hover')) hideTooltip(); });
+// ── JOB LOSS ─────────────────────────────────────────────────────────
+function renderJL() {
+  const car = CARS.find(c=>c.id===selCar);
+  const mort = MORTS.find(m=>m.id===selMort);
+  const nordnetJL = +document.getElementById('jl-nordnet').value || 0;
+  const car27 = (car.cm<=12?car.mo:CURR_CAR)*12;
+  const mort27 = (mort.cm<=12?mort.net_mo:CURR_MORT_NET)*12;
+  const exp27 = BASE_TOTAL + RENO + car27 + mort27 + nordnetJL*12;
+  const tDag = Math.min(TRAVIS_BASE*0.9, DAGPENGE);
+  const wDag = Math.min(WIFE_BASE*0.9, DAGPENGE);
+  const incT = (WIFE_BASE+tDag+CHILD/12)*12;
+  const incW = (TRAVIS_BASE+TRAVIS_COMM+wDag+CHILD/12)*12;
+  const netT = incT - exp27;
+  const netW = incW - exp27;
+  document.getElementById('jl-t-inc').textContent = fmt(Math.round(incT/12))+'/mo';
+  document.getElementById('jl-w-inc').textContent = fmt(Math.round(incW/12))+'/mo';
+  document.getElementById('jl-travis').className = 'ob'+(selJL==='travis'?' sel':'');
+  document.getElementById('jl-wife').className = 'ob'+(selJL==='wife'?' sel':'');
+  const who = selJL==='travis';
+  const jlInc = who?incT:incW;
+  const jlNet = who?netT:netW;
+  const jlDag = who?tDag:wDag;
+  const jlName = who?'Travis':'Wife';
+  const c = jlNet>=0?'pos':'neg';
+  document.getElementById('jl-yr').innerHTML = `
+    <div class="yr-card"><div class="yr-title">Monthly income</div>
+      <div class="yr-net">${fmt(Math.round(jlInc/12))}</div><div class="yr-sub">${fmt(jlInc)} annual</div></div>
+    <div class="yr-card"><div class="yr-title">Annual surplus / deficit</div>
+      <div class="yr-net ${c}">${jlNet>=0?'+':''}${fmt(jlNet)}</div><div class="yr-sub">${fmt(Math.round(jlNet/12))}/mo</div></div>
+  `;
+  document.getElementById('jl-table').innerHTML = `
+    <tr><th>Source</th><th>Monthly</th><th>Annual</th></tr>
+    <tr><td>${who?'Wife salary':'Travis salary (base)'}</td><td>${fmt(who?WIFE_BASE:TRAVIS_BASE)}</td><td>${fmt(who?WIFE_BASE*12:TRAVIS_BASE*12)}</td></tr>
+    ${!who?`<tr><td>Travis commission (avg)</td><td>${fmt(TRAVIS_COMM)}</td><td>${fmt(TRAVIS_COMM*12)}</td></tr>`:''}
+    <tr><td>${jlName} dagpenge</td><td>${fmt(Math.round(jlDag))}</td><td>${fmt(Math.round(jlDag*12))}</td></tr>
+    <tr><td>Child benefit</td><td>${fmt(Math.round(CHILD/12))}</td><td>${fmt(CHILD)}</td></tr>
+    <tr class="tr"><td>Total income</td><td>${fmt(Math.round(jlInc/12))}</td><td>${fmt(Math.round(jlInc))}</td></tr>
+    <tr><td>Total expenses (Nordnet ${fmt(nordnetJL)}/mo)</td><td>${fmt(Math.round(exp27/12))}</td><td>${fmt(exp27)}</td></tr>
+    <tr class="tr"><td>Net</td><td class="${c}">${jlNet>=0?'+':''}${fmt(Math.round(jlNet/12))}</td><td class="${c}">${jlNet>=0?'+':''}${fmt(jlNet)}</td></tr>
+  `;
+  document.getElementById('jl-note').innerHTML = jlNet>=0
+    ? `<div class="nb gr">Household stays in the black by ${fmt(jlNet)} DKK annually — ${fmt(Math.round(jlNet/12))}/mo. No cuts strictly required. Use the cost cut section below to see how much buffer you could build.</div>`
+    : `<div class="nb rd">Annual shortfall of ${fmt(Math.abs(jlNet))} DKK. Pausing Nordnet alone (10,000/mo) saves 120,000/yr. Use the cost cut section below to model combinations.</div>`;
+}
+// ── CUTS ─────────────────────────────────────────────────────────────
+function renderCuts() {
+  document.getElementById('cuts-list').innerHTML = CUTS.map((c,i)=>`
+    <div class="cut-row">
+      <input type="checkbox" class="cut-check" ${c.checked?'checked':''} onchange="toggleCut(${i})">
+      <span class="cut-name">${c.name}</span>
+      <span class="cut-mo">${fmt(c.mo)}/mo</span>
+      <span class="cut-amt">${fmt(c.annual)} kr/yr</span>
+    </div>`).join('');
+  updateCutTotal();
+}
+function toggleCut(i) { CUTS[i].checked=!CUTS[i].checked; updateCutTotal(); }
+function updateCutTotal() {
+  const total = CUTS.filter(c=>c.checked).reduce((s,c)=>s+c.annual,0);
+  const mo = CUTS.filter(c=>c.checked).reduce((s,c)=>s+c.mo,0);
+  document.getElementById('cut-total').textContent = '+'+fmt(total)+' kr saved';
+  document.getElementById('cut-mo-total').textContent = '+'+fmt(mo)+'/mo';
+}
+</script>
+</body>
+</html>
