@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /b/
 Sitemap: https://travis-campbell.com/sitemap-index.xml
