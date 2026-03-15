@@ -51,21 +51,21 @@ export default function VehicleComparison() {
       repairs: monthlyRepair,
     };
     peugeot.total = peugeot.fuel + peugeot.insurance + peugeot.roadTax + peugeot.repairs;
-    const makeEv = (name, tag, monthlyPay, deposit, depositExtra, consumption, range, dcCharge, insIncluded, separateIns) => {
+    const makeEv = (name, tag, monthlyPay, deposit, depositExtra, consumption, range, dcCharge, insIncluded, separateIns, winterTires, towHitch) => {
       const elCost = ((annualKm / 100) * consumption * elPrice) / 12;
       const insurance = insIncluded ? 0 : separateIns;
       const roadTax = 920 / 12;
       const depAmort = (deposit + depositExtra) / months;
       const m = {
         lease: monthlyPay, depositAmort: depAmort, electricity: elCost,
-        insurance, roadTax, wallbox: wallboxMonthly,
+        insurance, roadTax, wallbox: wallboxMonthly, winterTires, towHitch,
       };
-      m.total = m.lease + m.depositAmort + m.electricity + m.insurance + m.roadTax + m.wallbox;
+      m.total = m.lease + m.depositAmort + m.electricity + m.insurance + m.roadTax + m.wallbox + m.winterTires + m.towHitch;
       return { name, tag, monthlyPay, deposit, depositExtra, consumption, range, dcCharge, insIncluded, monthly: m, total48: m.total * months, delta: m.total - peugeot.total };
     };
-    const pv5 = makeEv("Kia PV5 Upgrade", "Primary Choice", 4495, 29995, 2500, 19.3, 412, "150 kW", false, pv5Insurance);
-    const buzzLife = makeEv("ID. Buzz Lang Life", "Premium Alternative", 5057, 45000, 0, 20.3, 469, "200 kW", true, 0);
-    const buzzStyle = makeEv("ID. Buzz Lang Style", "Premium+", 6357, 45000, 0, 20.6, 462, "200 kW", true, 0);
+    const pv5 = makeEv("Kia PV5 Upgrade", "Primary Choice", 4495, 29995, 2500, 19.3, 412, "150 kW", false, pv5Insurance, 548, 209);
+    const buzzLife = makeEv("ID. Buzz Lang Life", "Premium Alternative", 5307, 45000, 0, 20.3, 469, "200 kW", true, 0, 685, 0);
+    const buzzStyle = makeEv("ID. Buzz Lang Style (Dark Interior)", "Premium+", 6661, 45000, 0, 20.6, 462, "200 kW", true, 0, 685, 0);
     const evs = [pv5, buzzLife, buzzStyle];
     const lowestIdx = evs.reduce((bi, ev, i) => ev.monthly.total < evs[bi].monthly.total ? i : bi, 0);
     const pv5NoIns = pv5.monthly.total - pv5Insurance;
@@ -181,6 +181,26 @@ export default function VehicleComparison() {
                 {!ev.insIncluded && (<div className="flex justify-between"><span className="text-gray-500">Insurance<InfoTip text="Not included in Kia lease." /></span><span className="font-medium text-blue-600">{formatDKK(ev.monthly.insurance)}</span></div>)}
                 <div className="flex justify-between"><span className="text-gray-500">Road tax</span><span className="font-medium">{formatDKK(Math.round(ev.monthly.roadTax))}</span></div>
                 <div className="flex justify-between"><span className="text-gray-500">Wallbox (amort.)</span><span className="font-medium">{formatDKK(Math.round(ev.monthly.wallbox))}</span></div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">
+                    Winter tires
+                    <InfoTip text="Purchased wheels+tires amortized over 48 months, one mid-lease tire replacement, plus seasonal swaps twice/year." />
+                  </span>
+                  <span className="font-medium">
+                    {formatDKK(ev.monthly.winterTires)}
+                  </span>
+                </div>
+                {ev.monthly.towHitch > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">
+                      Tow hitch
+                      <InfoTip text="Aftermarket tow hitch, 10,000 DKK installed, amortized over 48 months. Included in Buzz lease quotes." />
+                    </span>
+                    <span className="font-medium">
+                      {formatDKK(ev.monthly.towHitch)}
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="mt-4 pt-3 border-t border-gray-200 text-xs space-y-1">
                 <div className="flex justify-between"><span className="text-gray-400">48-mo total</span><span className="font-bold text-gray-700">{formatDKK(Math.round(ev.total48))}</span></div>
