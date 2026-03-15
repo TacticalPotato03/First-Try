@@ -327,9 +327,11 @@ const CARS = [
   { id:'buzzstyle', name:'ID. Buzz Style', mo:8844, cm:4, detail:'From April\nUpfront: 15,000 kr (after trade-in)\n48-mo total: 424,488 kr', delta:+2991 },
 ];
 const MORTS = [
-  { id:'curr', name:'Current', gross_mo:1035, net_mo:694, cm:13, detail:'Interest-only\n3,105 kr/quarter' },
-  { id:'f5', name:'F5 · 2.7%', gross_mo:9619, net_mo:7893, cm:7, detail:'Refinance July\nGross 9,619/mo' },
-  { id:'30yr', name:'30yr · 4.0%', gross_mo:10277, net_mo:8427, cm:7, detail:'Refinance July\nGross 10,277/mo' },
+  { id:'curr',    name:'Current',             gross_mo:1035,  net_mo:694,  cm:13, detail:'Interest-only\n3,105 kr/quarter' },
+  { id:'f5io',    name:'F5 · interest-only',  gross_mo:5431,  net_mo:4112, cm:7,  detail:'Refinance July · interest-only\nNo principal repayment\nGross 5,431/mo · After-tax 4,112/mo' },
+  { id:'30yrio',  name:'30yr · interest-only', gross_mo:7500,  net_mo:5700, cm:7,  detail:'Refinance July · interest-only\n~1,500/mo more than F5 after tax\nRate locked 30 years\nGross ~7,500/mo · After-tax ~5,700/mo' },
+  { id:'f5',      name:'F5 · repayment',       gross_mo:9619,  net_mo:7893, cm:7,  detail:'Refinance July · repayment\nPays down principal\nGross 9,619/mo · After-tax 7,893/mo' },
+  { id:'30yr',    name:'30yr · repayment',     gross_mo:10277, net_mo:8427, cm:7,  detail:'Refinance July · repayment\nPays down principal\nGross 10,277/mo · After-tax 8,427/mo' },
 ];
 const INCOME = 1_191_048;
 const RENO = 65_000;
@@ -370,7 +372,7 @@ const CUTS = [
   { name:'Online services & software', annual:3631, mo:303, checked:false },
 ];
 let selCar = 'buzzlife';
-let selMort = 'f5';
+let selMort = 'f5io';
 let selJL = 'travis';
 let mainChart = null;
 function ac(before, after, cm) {
@@ -556,21 +558,47 @@ function renderJL() {
     ? `<div class="nb gr">Household stays in the black by ${fmt(jlNet)} DKK annually — ${fmt(Math.round(jlNet/12))}/mo. No cuts strictly required. Use the cost cut section below to see how much buffer you could build.</div>`
     : `<div class="nb rd">Annual shortfall of ${fmt(Math.abs(jlNet))} DKK. Pausing Nordnet alone (10,000/mo) saves 120,000/yr. Use the cost cut section below to model combinations.</div>`;
 }
-// ── CUTS ─────────────────────────────────────────────────────────────
+// ── CUTS ───────────────────────────────────────────────────────────────
 function renderCuts() {
-  document.getElementById('cuts-list').innerHTML = CUTS.map((c,i)=>`
-    <div class="cut-row">
+  document.getElementById('cuts-list').innerHTML = CUTS.map((c,i) => {
+    const pct = c.pct !== undefined ? c.pct : 100;
+    const saving = Math.round(c.annual * pct / 100);
+    const savingMo = Math.round(c.mo * pct / 100);
+    return `
+    <div class="cut-row" style="flex-wrap:wrap;gap:6px;align-items:center;">
       <input type="checkbox" class="cut-check" ${c.checked?'checked':''} onchange="toggleCut(${i})">
-      <span class="cut-name">${c.name}</span>
-      <span class="cut-mo">${fmt(c.mo)}/mo</span>
-      <span class="cut-amt">${fmt(c.annual)} kr/yr</span>
-    </div>`).join('');
+      <span class="cut-name" style="min-width:180px;flex:1;">${c.name}</span>
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:nowrap;">
+        <input type="range" min="0" max="100" step="10" value="${pct}"
+          style="width:80px;accent-color:var(--pos);"
+          oninput="setPct(${i},this.value)"
+          ${!c.checked?'disabled':''}>
+        <span style="font-size:12px;color:var(--text2);width:32px;text-align:center;" id="pct-label-${i}">${pct}%</span>
+        <span style="font-size:12px;color:var(--text2);width:55px;text-align:right;">${fmt(savingMo)}/mo</span>
+        <span style="font-size:13px;font-weight:500;width:80px;text-align:right;" id="cut-val-${i}">${fmt(saving)} kr</span>
+      </div>
+    </div>`;
+  }).join('');
   updateCutTotal();
 }
-function toggleCut(i) { CUTS[i].checked=!CUTS[i].checked; updateCutTotal(); }
+
+function toggleCut(i) {
+  CUTS[i].checked = !CUTS[i].checked;
+  if (CUTS[i].checked && (!CUTS[i].pct || CUTS[i].pct === 0)) CUTS[i].pct = 100;
+  renderCuts();
+}
+
+function setPct(i, val) {
+  CUTS[i].pct = +val;
+  document.getElementById('pct-label-'+i).textContent = val+'%';
+  const saving = Math.round(CUTS[i].annual * val / 100);
+  document.getElementById('cut-val-'+i).textContent = fmt(saving)+' kr';
+  updateCutTotal();
+}
+
 function updateCutTotal() {
-  const total = CUTS.filter(c=>c.checked).reduce((s,c)=>s+c.annual,0);
-  const mo = CUTS.filter(c=>c.checked).reduce((s,c)=>s+c.mo,0);
+  const total = CUTS.filter(c=>c.checked).reduce((s,c)=>s+Math.round(c.annual*(c.pct!==undefined?c.pct:100)/100),0);
+  const mo = CUTS.filter(c=>c.checked).reduce((s,c)=>s+Math.round(c.mo*(c.pct!==undefined?c.pct:100)/100),0);
   document.getElementById('cut-total').textContent = '+'+fmt(total)+' kr saved';
   document.getElementById('cut-mo-total').textContent = '+'+fmt(mo)+'/mo';
 }
