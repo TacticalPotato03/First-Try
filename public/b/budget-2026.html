@@ -207,23 +207,33 @@
     <p class="section-title">1. Annual budget overview</p>
     <div class="card">
       <div style="margin-bottom:10px;">
-        <div class="selector-row">
-          <span class="slabel">Car:</span>
-          <div id="car-opts-ov"></div>
+        <!-- Car: fixed -->
+        <div class="nb gr" style="margin-bottom:10px;">
+          <strong>Car: ID. Buzz Life (confirmed)</strong> — Lease 6,660/mo · Electricity ~800/mo · Road tax 77/mo = <strong>7,537 DKK/mo total</strong>.
+          Exit clause: forfeits 27,000 DKK if terminated before month 12. One-time costs (already hit cash reserves): 27,000 kr down payment · 7,000 kr wallbox · 20,000 kr winter wheels.
+          Cash reserves: 200,000 → <strong>146,000 DKK</strong> after upfront costs.
         </div>
-        <div class="selector-row">
-          <span class="slabel">Mortgage:</span>
-          <div id="mort-opts-ov"></div>
+        <!-- Mortgage rate slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:12px;color:var(--text2);">Mortgage rate (kontantlånsrente):</span>
+            <input type="range" id="rate-slider" min="2.7" max="3.5" step="0.1" value="2.92"
+              style="width:160px;accent-color:#378ADD;" oninput="renderAll()">
+            <span style="font-size:15px;font-weight:500;" id="rate-display">2.92%</span>
+            <span style="font-size:12px;color:var(--text2);">+ bidragssats 0.74% = <span id="rate-total-display">3.66%</span> total</span>
+          </div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:6px;" id="mort-calc-display">Gross: — · After-tax (33%): —</div>
+          <div class="nb am" style="font-size:11px;margin-bottom:0;">
+            Key dates: <strong>Apr 30</strong> ECB meeting · <strong>May/Jun</strong> bond auction sets actual rate · <strong>Jun 11</strong> ECB meeting · <strong>Jul 1</strong> refinancing takes effect.
+            F5 interest-only · Principal 1,884,000 DKK · Afdragsfrihed until 2031 · 25 years remaining.
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;">
-          <span style="font-size:12px;color:var(--text2);">Mortgage display:</span>
-          <select id="tax-sel" onchange="renderAll()">
-            <option value="net" selected>After-tax (rentefradrag)</option>
-            <option value="gross">Gross</option>
-          </select>
-          <span style="font-size:12px;color:var(--text2);margin-left:12px;">Nordnet monthly:</span>
-          <input type="number" id="nordnet-mo" value="10000" step="500" style="width:100px;" onchange="renderAll()">
+        <!-- Nordnet + Lønsikring -->
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:12px;color:var(--text2);">Nordnet monthly:</span>
+          <input type="number" id="nordnet-mo" value="2000" step="500" style="width:90px;" onchange="renderAll()">
           <span style="font-size:12px;color:var(--text2);">DKK</span>
+          <span style="font-size:12px;color:var(--text2);margin-left:12px;">· Lønsikring: 485 DKK/mo (Business Danmark, from Apr 2026, payout 10,000/mo)</span>
         </div>
       </div>
     </div>
@@ -236,6 +246,7 @@
       <span><span class="ld" style="background:#FAC775"></span>Car</span>
       <span><span class="ld" style="background:#F7C1C1"></span>Mortgage</span>
       <span><span class="ld" style="background:#AFA9EC"></span>Nordnet</span>
+      <span><span class="ld" style="background:#E8A5D0"></span>Lønsikring</span>
       <span><span class="ld" style="background:#C0DD97"></span>Free cash</span>
     </div>
     <div style="position:relative;width:100%;height:300px;margin-bottom:8px;">
@@ -250,13 +261,13 @@
   <!-- SECTION 2: JOB LOSS -->
   <section id="s-jobloss">
     <p class="section-title">2. Job loss scenario</p>
-    <div class="nb rd">Full-year worst case — job loss from January, dagpenge at 90% of salary up to 19,322 DKK/mo ceiling. Uses car and mortgage selected above.</div>
+    <div class="nb rd">Full-year worst case — job loss from January, dagpenge at 90% of salary up to 19,322 DKK/mo ceiling. Uses confirmed car and mortgage rates above. Lønsikring payout (10,000/mo) activates Oct 1 2026 after 6-month qualification.</div>
     <div class="jl-grid">
       <button class="ob sel" id="jl-travis" onclick="setJL('travis')">
         <div class="on">Travis loses job</div>
         <div class="op" id="jl-t-inc">—</div>
-        <div class="od">Dagpenge replaces base salary
-Commission lost entirely</div>
+        <div class="od">Dagpenge replaces base salary · Commission lost
+From Oct: +10,000 lønsikring payout</div>
       </button>
       <button class="ob" id="jl-wife" onclick="setJL('wife')">
         <div class="on">Wife loses job</div>
@@ -273,7 +284,7 @@ Travis commission retained</div>
     <div class="yr-grid" id="jl-yr"></div>
     <div class="card"><table class="rt" id="jl-table"></table></div>
     <div id="jl-note"></div>
-    <p style="font-size:11px;color:var(--text2);margin-top:8px;">Dagpenge ceiling 19,322 DKK/mo after tax. Wife's December bonus excluded from stress scenario. Lønsikring (485/mo, +10,000 benefit) not included — consider adding for Travis given his salary is well above dagpenge ceiling.</p>
+    <p style="font-size:11px;color:var(--text2);margin-top:8px;">Dagpenge ceiling 19,322 DKK/mo after tax. Wife's December bonus excluded. Lønsikring premium 485/mo is tax-deductible alongside a-kasse. Coverage activates Oct 1 2026 (6-month qualification period from Apr 1 start). Before Oct 1, job loss income for Travis scenario is 61,450 DKK/mo.</p>
   </section>
   <hr class="section-dv">
   <!-- SECTION 3: COST CUTS -->
@@ -293,7 +304,7 @@ Travis commission retained</div>
     </div>
   </section>
   <footer>
-    <p>Built from 2025 SPIIR transaction data. Income based on salary + commission average + child benefit — crypto sales and one-off transfers excluded. Renovation budget 65,000/yr from 2022–2025 historical average. Tax settlement (140k) excluded as non-recurring. Mortgage after-tax applies 33% rentefradrag to interest portion year 1.</p>
+    <p>Built from 2025 SPIIR transaction data. Income based on salary + commission average + child benefit — crypto sales and one-off transfers excluded. Renovation budget 65,000/yr from 2022–2025 historical average. Tax settlement (140k) excluded as non-recurring. Mortgage after-tax applies 33% rentefradrag (negative kapitalindkomst under 50,000 DKK threshold). Car: ID. Buzz Life, lease from April 2026. Lønsikring: Business Danmark, 485/mo from April 2026, 10,000/mo payout. Cash reserves 146,000 DKK after upfront car costs.</p>
     <p style="margin-top:6px;">Last updated: March 2026</p>
   </footer>
 </div>
@@ -320,29 +331,26 @@ document.getElementById('pin-input').addEventListener('keydown', e => { if(e.key
 // ── DATA ─────────────────────────────────────────────────────────────
 const fmt = n => Math.round(n).toLocaleString('da-DK');
 const fmtK = n => Math.round(n/1000) + 'k';
-const CARS = [
-  { id:'peugeot', name:'Peugeot 5008', mo:5853, cm:13, detail:'Keep current car\nNo change, no upfront', delta:0 },
-  { id:'kia', name:'Kia PV5', mo:6892, cm:8, detail:'From August\nUpfront: 32,495 kr', delta:+1039 },
-  { id:'buzzlife', name:'ID. Buzz Life', mo:7477, cm:4, detail:'From April\nUpfront: 15,000 kr (after trade-in)\n48-mo total: 358,896 kr', delta:+1624 },
-  { id:'buzzstyle', name:'ID. Buzz Style', mo:8844, cm:4, detail:'From April\nUpfront: 15,000 kr (after trade-in)\n48-mo total: 424,488 kr', delta:+2991 },
-];
-const MORTS = [
-  { id:'curr',    name:'Current',             gross_mo:1035,  net_mo:694,  cm:13, detail:'Interest-only\n3,105 kr/quarter' },
-  { id:'f5io',    name:'F5 · interest-only',  gross_mo:5431,  net_mo:4112, cm:7,  detail:'Refinance July · interest-only\nNo principal repayment\nGross 5,431/mo · After-tax 4,112/mo' },
-  { id:'30yrio',  name:'30yr · interest-only', gross_mo:7500,  net_mo:5700, cm:7,  detail:'Refinance July · interest-only\n~1,500/mo more than F5 after tax\nRate locked 30 years\nGross ~7,500/mo · After-tax ~5,700/mo' },
-  { id:'f5',      name:'F5 · repayment',       gross_mo:9619,  net_mo:7893, cm:7,  detail:'Refinance July · repayment\nPays down principal\nGross 9,619/mo · After-tax 7,893/mo' },
-  { id:'30yr',    name:'30yr · repayment',     gross_mo:10277, net_mo:8427, cm:7,  detail:'Refinance July · repayment\nPays down principal\nGross 10,277/mo · After-tax 8,427/mo' },
-];
-const INCOME = 1_191_048;
-const RENO = 65_000;
-const CURR_CAR = 5_853;
-const CURR_MORT_NET = 694;
+// Fixed confirmed figures
+const INCOME      = 1_191_048;
+const RENO        = 65_000;
+const CAR_OLD_MO  = 5_853;   // Peugeot 5008 Jan–Mar 2026
+const CAR_MO      = 7_537;   // ID. Buzz Life: lease 6,660 + electricity 800 + road tax 77
+const CAR_START   = 4;       // ID. Buzz from April (month 4)
+const PRINCIPAL   = 1_884_000;
+const BIDRAGSSATS = 0.0074;
+const TAX_DEDUCT  = 0.33;
+const MORT_REFIN  = 7;       // Refinancing from July (month 7)
+const CURR_MORT_NET   = 694;
 const CURR_MORT_GROSS = 1_035;
+const LONSIKRING  = 485;     // Business Danmark, starts April 2026
+const LONS_START  = 4;       // Month 4
+const LONS_PAYOUT = 10_000;  // Monthly payout on claim
 const TRAVIS_BASE = 42_296;
 const TRAVIS_COMM = 7_948;
-const WIFE_BASE = 39_606;
-const CHILD = 30_265;
-const DAGPENGE = 19_322;
+const WIFE_BASE   = 39_606;
+const CHILD       = 30_265;
+const DAGPENGE    = 19_322;
 const BASE_CATS = [
   { name:'Leisure', val:309_810, color:'#378ADD' },
   { name:'Household / groceries', val:185_734, color:'#1D9E75' },
@@ -361,7 +369,8 @@ const CUTS = [
   { name:'Restaurants & bars', annual:50039, mo:4170, checked:false },
   { name:'Hairdresser & personal care', annual:37124, mo:3094, checked:false },
   { name:'Gifts & charity', annual:25578, mo:2132, checked:false },
-  { name:'Nordnet savings (reduce/pause)', annual:120000, mo:10000, checked:false },
+  { name:'Nordnet savings (pause)', annual:24000, mo:2000, checked:false },
+  { name:'Car lease termination (after month 12, forfeits 27,000 sunk cost)', annual:79920, mo:6660, checked:false },
   { name:'Furniture & interior (defer)', annual:24764, mo:2064, checked:false },
   { name:'Cinema, concerts & entertainment', annual:22462, mo:1872, checked:false },
   { name:'Sports & leisure', annual:21686, mo:1807, checked:false },
@@ -371,57 +380,53 @@ const CUTS = [
   { name:'Hobby & sports equipment', annual:4230, mo:353, checked:false },
   { name:'Online services & software', annual:3631, mo:303, checked:false },
 ];
-let selCar = 'buzzlife';
-let selMort = 'f5io';
 let selJL = 'travis';
 let mainChart = null;
-function ac(before, after, cm) {
-  const b = Math.min(cm-1, 12);
-  return before*b + after*(12-b);
+// ── MORTGAGE HELPERS ──────────────────────────────────────────────────
+function getMortRatePct() { return +document.getElementById('rate-slider').value; }
+function getMortGrossMo() {
+  const r = getMortRatePct() / 100;
+  return PRINCIPAL * (r + BIDRAGSSATS) / 12;
 }
-// ── SELECTORS ────────────────────────────────────────────────────────
-function buildCarOpts(containerId) {
-  document.getElementById(containerId).innerHTML = CARS.map(c => {
-    const ds = c.delta===0 ? '' : `<span style="font-size:11px;color:var(--neg);margin-left:6px;">+${fmt(c.delta)}/mo</span>`;
-    return `<button class="sb ${c.id===selCar?'sel':''}" onclick="selC('${c.id}')">${c.name} ${fmt(c.mo)}${ds}</button>`;
-  }).join('');
-}
-function buildMortOpts(containerId) {
-  const useNet = document.getElementById('tax-sel').value === 'net';
-  document.getElementById(containerId).innerHTML = MORTS.map(m => {
-    const val = useNet ? m.net_mo : m.gross_mo;
-    return `<button class="sb ${m.id===selMort?'sel':''}" onclick="selM('${m.id}')">${m.name} ${fmt(val)}/mo</button>`;
-  }).join('');
-}
-function selC(id) { selCar=id; renderAll(); }
-function selM(id) { selMort=id; renderAll(); }
+function getMortNetMo() { return getMortGrossMo() * (1 - TAX_DEDUCT); }
 function setJL(who) { selJL=who; renderJL(); }
 // ── MAIN RENDER ──────────────────────────────────────────────────────
 function renderAll() {
-  buildCarOpts('car-opts-ov');
-  buildMortOpts('mort-opts-ov');
   renderOverview();
   renderJL();
   renderCuts();
 }
 function renderOverview() {
-  const useNet = document.getElementById('tax-sel').value === 'net';
-  const nordnetMo = +document.getElementById('nordnet-mo').value || 0;
+  const mortNetMo   = getMortNetMo();
+  const mortGrossMo = getMortGrossMo();
+  const ratePct     = getMortRatePct();
+  const totalRatePct = ratePct + BIDRAGSSATS * 100;
+  const nordnetMo   = +document.getElementById('nordnet-mo').value || 0;
   const nordnetAnnual = nordnetMo * 12;
-  const car = CARS.find(c=>c.id===selCar);
-  const mort = MORTS.find(m=>m.id===selMort);
-  const mortMo = useNet ? mort.net_mo : mort.gross_mo;
-  const currMortMo = useNet ? CURR_MORT_NET : CURR_MORT_GROSS;
-  const car26 = ac(CURR_CAR, car.mo, car.cm);
-  const mort26 = ac(currMortMo, mortMo, mort.cm);
-  const exp26 = BASE_TOTAL + RENO + car26 + mort26 + nordnetAnnual;
-  const net26 = INCOME - exp26;
-  const car27 = (car.cm<=12 ? car.mo : CURR_CAR) * 12;
-  const mort27 = (mort.cm<=12 ? mortMo : currMortMo) * 12;
-  const exp27 = BASE_TOTAL + RENO + car27 + mort27 + nordnetAnnual;
-  const net27 = INCOME - exp27;
+
+  // Update rate display
+  document.getElementById('rate-display').textContent = ratePct.toFixed(2) + '%';
+  document.getElementById('rate-total-display').textContent = totalRatePct.toFixed(2) + '%';
+  document.getElementById('mort-calc-display').textContent =
+    `Gross: ${fmt(mortGrossMo)}/mo · After-tax (33%): ${fmt(mortNetMo)}/mo`;
+
+  // 2026: car Jan-Mar old, Apr-Dec new; mortgage Jan-Jun current, Jul-Dec new rate
+  const car26  = CAR_OLD_MO * (CAR_START - 1) + CAR_MO * (13 - CAR_START);
+  const mort26 = CURR_MORT_NET * (MORT_REFIN - 1) + mortNetMo * (13 - MORT_REFIN);
+  const lons26 = LONSIKRING * (13 - LONS_START);  // Apr-Dec = 9 months
+  const exp26  = BASE_TOTAL + RENO + car26 + mort26 + lons26 + nordnetAnnual;
+  const net26  = INCOME - exp26;
+
+  // 2027: all full year
+  const car27  = CAR_MO * 12;
+  const mort27 = mortNetMo * 12;
+  const lons27 = LONSIKRING * 12;
+  const exp27  = BASE_TOTAL + RENO + car27 + mort27 + lons27 + nordnetAnnual;
+  const net27  = INCOME - exp27;
+
   const c26 = net26>=40000?'pos':net26>=0?'wrn':'neg';
   const c27 = net27>=40000?'pos':net27>=0?'wrn':'neg';
+
   // Metrics
   document.getElementById('ov-metrics').innerHTML = `
     <div class="metric-card"><div class="metric-label">Annual income</div><div class="metric-value">${fmt(INCOME)}</div></div>
@@ -451,8 +456,9 @@ function renderOverview() {
     <tr class="tr"><td>Expenses</td><td></td><td></td><td></td><td></td></tr>
     <tr class="sr"><td>Recurring base (leisure, groceries, basics, utilities, travel)</td><td>${fmt(BASE_TOTAL)}</td><td>${fmt(Math.round(BASE_TOTAL/12))}</td><td>${fmt(BASE_TOTAL)}</td><td>${fmt(Math.round(BASE_TOTAL/12))}</td></tr>
     <tr class="sr"><td>Home maintenance budget</td><td>${fmt(RENO)}</td><td>${fmt(Math.round(RENO/12))}</td><td>${fmt(RENO)}</td><td>${fmt(Math.round(RENO/12))}</td></tr>
-    <tr class="sr"><td>Car costs</td><td>${fmt(car26)}</td><td>${fmt(Math.round(car26/12))}</td><td>${fmt(car27)}</td><td>${fmt(Math.round(car27/12))}</td></tr>
-    <tr class="sr"><td>Mortgage ${useNet?'(after-tax)':'(gross)'}</td><td>${fmt(mort26)}</td><td>${fmt(Math.round(mort26/12))}</td><td>${fmt(mort27)}</td><td>${fmt(Math.round(mort27/12))}</td></tr>
+    <tr class="sr"><td>Car costs (ID. Buzz Life from Apr)</td><td>${fmt(car26)}</td><td>${fmt(Math.round(car26/12))}</td><td>${fmt(car27)}</td><td>${fmt(Math.round(car27/12))}</td></tr>
+    <tr class="sr"><td>Mortgage (after-tax, F5 interest-only from Jul)</td><td>${fmt(mort26)}</td><td>${fmt(Math.round(mort26/12))}</td><td>${fmt(mort27)}</td><td>${fmt(Math.round(mort27/12))}</td></tr>
+    <tr class="sr"><td>Lønsikring (Business Danmark, from Apr)</td><td>${fmt(lons26)}</td><td>${fmt(Math.round(lons26/12))}</td><td>${fmt(lons27)}</td><td>${fmt(Math.round(lons27/12))}</td></tr>
     <tr class="sr hi"><td>Nordnet monthly investment</td><td>${fmt(nordnetAnnual)}</td><td>${fmt(nordnetMo)}</td><td>${fmt(nordnetAnnual)}</td><td>${fmt(nordnetMo)}</td></tr>
     <tr class="tr"><td>Total outgoings</td><td>${fmt(exp26)}</td><td>${fmt(Math.round(exp26/12))}</td><td>${fmt(exp27)}</td><td>${fmt(Math.round(exp27/12))}</td></tr>
     <tr class="tr"><td>True free cash flow</td>
@@ -460,12 +466,12 @@ function renderOverview() {
       <td class="${c27}">${net27>=0?'+':''}${fmt(net27)}</td><td class="${c27}">${net27>=0?'+':''}${fmt(Math.round(net27/12))}</td></tr>
   `;
   document.getElementById('ov-footnote').innerHTML =
-    `Income: salary (96,082/mo avg) + commission (7,948/mo avg) + child benefit (2,522/mo). Renovation budget 65,000/yr. ` +
-    `2026 car cost is partial year — ${car.name} from month ${car.cm}. Mortgage refinance from July 2026.`;
+    `Income: salary (96,082/mo avg) + commission (7,948/mo avg) + child benefit (2,522/mo). Renovation 65,000/yr. ` +
+    `Car: Peugeot Jan–Mar, ID. Buzz Life Apr–Dec 2026. Mortgage refinance Jul 2026 at ${ratePct.toFixed(2)}% + 0.74% bidragssats. Lønsikring from Apr 2026.`;
   // Chart
-  const labels = ["'26 inc","'26 base","'26 reno","'26 car","'26 mort","'26 save","'26 free","'27 inc","'27 base","'27 reno","'27 car","'27 mort","'27 save","'27 free"];
-  const data = [INCOME,BASE_TOTAL,RENO,car26,mort26,nordnetAnnual,net26,INCOME,BASE_TOTAL,RENO,car27,mort27,nordnetAnnual,net27];
-  const colors = ['#B5D4F4','#85B7EB','#9FE1CB','#FAC775','#F7C1C1','#AFA9EC',net26>=0?'#C0DD97':'#F09595','#B5D4F4','#85B7EB','#9FE1CB','#FAC775','#F7C1C1','#AFA9EC',net27>=0?'#C0DD97':'#F09595'];
+  const labels = ["'26 inc","'26 base","'26 reno","'26 car","'26 mort","'26 lons","'26 save","'26 free","'27 inc","'27 base","'27 reno","'27 car","'27 mort","'27 lons","'27 save","'27 free"];
+  const data   = [INCOME,BASE_TOTAL,RENO,car26,mort26,lons26,nordnetAnnual,net26,INCOME,BASE_TOTAL,RENO,car27,mort27,lons27,nordnetAnnual,net27];
+  const colors = ['#B5D4F4','#85B7EB','#9FE1CB','#FAC775','#F7C1C1','#E8A5D0','#AFA9EC',net26>=0?'#C0DD97':'#F09595','#B5D4F4','#85B7EB','#9FE1CB','#FAC775','#F7C1C1','#E8A5D0','#AFA9EC',net27>=0?'#C0DD97':'#F09595'];
   window._chartData = { labels, data };
   const ctx = document.getElementById('mainChart');
   if (mainChart) { mainChart.destroy(); mainChart = null; }
@@ -493,8 +499,9 @@ function renderOverview() {
 }
 function showTooltip(evt, idx, labels, data) {
   const tt = document.getElementById('tooltip');
-  const isBase = idx===1||idx===8;
-  const year = idx<=6 ? '2026' : '2027';
+  // Base bars are at index 1 (2026) and 9 (2027) — 8 bars per year now
+  const isBase = idx===1||idx===9;
+  const year = idx<=7 ? '2026' : '2027';
   document.getElementById('tt-title').textContent = isBase ? `Recurring base — ${year}` : labels[idx].replace("'26 ","2026 ").replace("'27 ","2027 ");
   if (isBase) {
     document.getElementById('tt-body').innerHTML =
@@ -516,47 +523,60 @@ function hideTooltip() { document.getElementById('tooltip').style.display='none'
 document.addEventListener('mousemove', e => { if(!document.getElementById('mainChart').matches(':hover')) hideTooltip(); });
 // ── JOB LOSS ─────────────────────────────────────────────────────────
 function renderJL() {
-  const car = CARS.find(c=>c.id===selCar);
-  const mort = MORTS.find(m=>m.id===selMort);
   const nordnetJL = +document.getElementById('jl-nordnet').value || 0;
-  const car27 = (car.cm<=12?car.mo:CURR_CAR)*12;
-  const mort27 = (mort.cm<=12?mort.net_mo:CURR_MORT_NET)*12;
-  const exp27 = BASE_TOTAL + RENO + car27 + mort27 + nordnetJL*12;
-  const tDag = Math.min(TRAVIS_BASE*0.9, DAGPENGE);
-  const wDag = Math.min(WIFE_BASE*0.9, DAGPENGE);
-  const incT = (WIFE_BASE+tDag+CHILD/12)*12;
-  const incW = (TRAVIS_BASE+TRAVIS_COMM+wDag+CHILD/12)*12;
+  const car27  = CAR_MO * 12;
+  const mort27 = getMortNetMo() * 12;
+  const lons27 = LONSIKRING * 12;
+  const exp27  = BASE_TOTAL + RENO + car27 + mort27 + lons27 + nordnetJL * 12;
+
+  const tDag = Math.min(TRAVIS_BASE * 0.9, DAGPENGE);
+  const wDag = Math.min(WIFE_BASE * 0.9, DAGPENGE);
+
+  // Travis loses job: Signe + Travis dagpenge + lønsikring (Oct+) + child
+  // Show full-year with lønsikring: 71,450/mo (note covers Oct activation)
+  const incT_mo_with = WIFE_BASE + tDag + LONS_PAYOUT + CHILD / 12;  // 71,450
+  const incT_mo_without = WIFE_BASE + tDag + CHILD / 12;             // 61,450
+  const incT = incT_mo_with * 12; // display full-year with lønsikring active
+
+  // Wife loses job: Travis base + commission + Wife dagpenge + child (no lønsikring payout applies here)
+  const incW_mo = TRAVIS_BASE + TRAVIS_COMM + wDag + CHILD / 12;
+  const incW = incW_mo * 12;
+
   const netT = incT - exp27;
   const netW = incW - exp27;
-  document.getElementById('jl-t-inc').textContent = fmt(Math.round(incT/12))+'/mo';
-  document.getElementById('jl-w-inc').textContent = fmt(Math.round(incW/12))+'/mo';
-  document.getElementById('jl-travis').className = 'ob'+(selJL==='travis'?' sel':'');
-  document.getElementById('jl-wife').className = 'ob'+(selJL==='wife'?' sel':'');
-  const who = selJL==='travis';
-  const jlInc = who?incT:incW;
-  const jlNet = who?netT:netW;
-  const jlDag = who?tDag:wDag;
-  const jlName = who?'Travis':'Wife';
-  const c = jlNet>=0?'pos':'neg';
+
+  document.getElementById('jl-t-inc').textContent = fmt(Math.round(incT_mo_with)) + '/mo';
+  document.getElementById('jl-w-inc').textContent = fmt(Math.round(incW_mo)) + '/mo';
+  document.getElementById('jl-travis').className = 'ob' + (selJL === 'travis' ? ' sel' : '');
+  document.getElementById('jl-wife').className   = 'ob' + (selJL === 'wife'   ? ' sel' : '');
+
+  const who    = selJL === 'travis';
+  const jlInc  = who ? incT : incW;
+  const jlNet  = who ? netT : netW;
+  const jlDag  = who ? tDag : wDag;
+  const jlName = who ? 'Travis' : 'Signe';
+  const c      = jlNet >= 0 ? 'pos' : 'neg';
+
   document.getElementById('jl-yr').innerHTML = `
-    <div class="yr-card"><div class="yr-title">Monthly income</div>
-      <div class="yr-net">${fmt(Math.round(jlInc/12))}</div><div class="yr-sub">${fmt(jlInc)} annual</div></div>
+    <div class="yr-card"><div class="yr-title">Monthly income${who?' (incl. lønsikring from Oct)':''}</div>
+      <div class="yr-net">${fmt(Math.round(jlInc / 12))}</div><div class="yr-sub">${fmt(jlInc)} annual</div></div>
     <div class="yr-card"><div class="yr-title">Annual surplus / deficit</div>
-      <div class="yr-net ${c}">${jlNet>=0?'+':''}${fmt(jlNet)}</div><div class="yr-sub">${fmt(Math.round(jlNet/12))}/mo</div></div>
+      <div class="yr-net ${c}">${jlNet >= 0 ? '+' : ''}${fmt(jlNet)}</div><div class="yr-sub">${fmt(Math.round(jlNet / 12))}/mo</div></div>
   `;
   document.getElementById('jl-table').innerHTML = `
     <tr><th>Source</th><th>Monthly</th><th>Annual</th></tr>
-    <tr><td>${who?'Wife salary':'Travis salary (base)'}</td><td>${fmt(who?WIFE_BASE:TRAVIS_BASE)}</td><td>${fmt(who?WIFE_BASE*12:TRAVIS_BASE*12)}</td></tr>
-    ${!who?`<tr><td>Travis commission (avg)</td><td>${fmt(TRAVIS_COMM)}</td><td>${fmt(TRAVIS_COMM*12)}</td></tr>`:''}
-    <tr><td>${jlName} dagpenge</td><td>${fmt(Math.round(jlDag))}</td><td>${fmt(Math.round(jlDag*12))}</td></tr>
-    <tr><td>Child benefit</td><td>${fmt(Math.round(CHILD/12))}</td><td>${fmt(CHILD)}</td></tr>
-    <tr class="tr"><td>Total income</td><td>${fmt(Math.round(jlInc/12))}</td><td>${fmt(Math.round(jlInc))}</td></tr>
-    <tr><td>Total expenses (Nordnet ${fmt(nordnetJL)}/mo)</td><td>${fmt(Math.round(exp27/12))}</td><td>${fmt(exp27)}</td></tr>
-    <tr class="tr"><td>Net</td><td class="${c}">${jlNet>=0?'+':''}${fmt(Math.round(jlNet/12))}</td><td class="${c}">${jlNet>=0?'+':''}${fmt(jlNet)}</td></tr>
+    <tr><td>${who ? 'Signe salary' : 'Travis salary (base)'}</td><td>${fmt(who ? WIFE_BASE : TRAVIS_BASE)}</td><td>${fmt(who ? WIFE_BASE * 12 : TRAVIS_BASE * 12)}</td></tr>
+    ${!who ? `<tr><td>Travis commission (avg)</td><td>${fmt(TRAVIS_COMM)}</td><td>${fmt(TRAVIS_COMM * 12)}</td></tr>` : ''}
+    <tr><td>${jlName} dagpenge</td><td>${fmt(Math.round(jlDag))}</td><td>${fmt(Math.round(jlDag * 12))}</td></tr>
+    ${who ? `<tr><td>Lønsikring payout (from Oct 1)</td><td>${fmt(LONS_PAYOUT)}</td><td>${fmt(LONS_PAYOUT * 12)}<span style="font-size:10px;color:var(--text2);"> (3 months actual)</span></td></tr>` : ''}
+    <tr><td>Child benefit</td><td>${fmt(Math.round(CHILD / 12))}</td><td>${fmt(CHILD)}</td></tr>
+    <tr class="tr"><td>Total income</td><td>${fmt(Math.round(jlInc / 12))}</td><td>${fmt(Math.round(jlInc))}</td></tr>
+    <tr><td>Total expenses (Nordnet ${fmt(nordnetJL)}/mo)</td><td>${fmt(Math.round(exp27 / 12))}</td><td>${fmt(exp27)}</td></tr>
+    <tr class="tr"><td>Net</td><td class="${c}">${jlNet >= 0 ? '+' : ''}${fmt(Math.round(jlNet / 12))}</td><td class="${c}">${jlNet >= 0 ? '+' : ''}${fmt(jlNet)}</td></tr>
   `;
-  document.getElementById('jl-note').innerHTML = jlNet>=0
-    ? `<div class="nb gr">Household stays in the black by ${fmt(jlNet)} DKK annually — ${fmt(Math.round(jlNet/12))}/mo. No cuts strictly required. Use the cost cut section below to see how much buffer you could build.</div>`
-    : `<div class="nb rd">Annual shortfall of ${fmt(Math.abs(jlNet))} DKK. Pausing Nordnet alone (10,000/mo) saves 120,000/yr. Use the cost cut section below to model combinations.</div>`;
+  document.getElementById('jl-note').innerHTML = jlNet >= 0
+    ? `<div class="nb gr">Household stays in the black by ${fmt(jlNet)} DKK annually — ${fmt(Math.round(jlNet / 12))}/mo. No cuts strictly required.</div>`
+    : `<div class="nb rd">Annual shortfall of ${fmt(Math.abs(jlNet))} DKK. Pausing Nordnet (2,000/mo) saves 24,000/yr. Car lease termination after month 12 frees 6,660/mo (saves 79,920/yr but forfeits 27,000 sunk down payment). Use the cost cut section below to model combinations.</div>`;
 }
 // ── CUTS ───────────────────────────────────────────────────────────────
 function renderCuts() {
