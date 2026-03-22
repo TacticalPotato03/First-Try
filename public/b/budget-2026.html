@@ -209,9 +209,9 @@
       <div style="margin-bottom:10px;">
         <!-- Car: fixed -->
         <div class="nb gr" style="margin-bottom:10px;">
-          <strong>Car: ID. Buzz Life (confirmed)</strong> — Lease 6,660/mo · Electricity ~800/mo · Road tax 77/mo = <strong>7,537 DKK/mo total</strong>.
-          Exit clause: forfeits 27,000 DKK if terminated before month 12. One-time costs (already hit cash reserves): 27,000 kr down payment · 7,000 kr wallbox · 20,000 kr winter wheels.
-          Cash reserves: 200,000 → <strong>146,000 DKK</strong> after upfront costs.
+          <strong>Car: ID. Buzz Style (confirmed)</strong> — Lease 6,660/mo · Electricity ~800/mo · Road tax 77/mo = <strong>7,537 DKK/mo total</strong>.
+          Exit clause: forfeits 27,000 DKK if terminated before month 12.
+          <span style="display:inline-block;margin-top:4px;">Cash today: <strong>200,000 DKK</strong> · −27,000 down payment <em>(committed, not yet paid)</em> · −7,000 wallbox <em>(committed, not yet paid)</em> · −20,000 winter tires <em>(budgeted, not yet ordered)</em> = projected remaining <strong>146,000 DKK</strong>.</span>
         </div>
         <!-- Mortgage rate slider -->
         <div style="margin-bottom:10px;">
@@ -239,18 +239,29 @@
     </div>
     <div id="ov-metrics" class="metric-grid"></div>
     <div class="yr-grid" id="ov-yr"></div>
-    <div class="leg">
+    <!-- Chart 1: Monthly budget waterfall -->
+    <p style="font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">2027 monthly budget waterfall</p>
+    <div class="leg" style="margin-bottom:8px;">
       <span><span class="ld" style="background:#B5D4F4"></span>Income</span>
-      <span><span class="ld" style="background:#85B7EB"></span>Base <em style="font-style:normal;font-size:10px;">(hover for breakdown)</em></span>
-      <span><span class="ld" style="background:#9FE1CB"></span>Renovation</span>
-      <span><span class="ld" style="background:#FAC775"></span>Car</span>
-      <span><span class="ld" style="background:#F7C1C1"></span>Mortgage</span>
-      <span><span class="ld" style="background:#AFA9EC"></span>Nordnet</span>
-      <span><span class="ld" style="background:#E8A5D0"></span>Lønsikring</span>
-      <span><span class="ld" style="background:#C0DD97"></span>Free cash</span>
+      <span><span class="ld" style="background:#5B8DB8"></span>Fixed costs</span>
+      <span><span class="ld" style="background:#E8B06A"></span>Semi-fixed</span>
+      <span><span class="ld" style="background:#AFA9EC"></span>Discretionary</span>
+      <span><span class="ld" style="background:#C0DD97"></span>Surplus</span>
     </div>
-    <div style="position:relative;width:100%;height:300px;margin-bottom:8px;">
-      <canvas id="mainChart"></canvas>
+    <div style="position:relative;width:100%;height:280px;margin-bottom:1.5rem;">
+      <canvas id="waterfallChart"></canvas>
+    </div>
+    <!-- Chart 2: Cash reserves waterfall -->
+    <p style="font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Cash reserves waterfall</p>
+    <div class="leg" style="margin-bottom:8px;">
+      <span><span class="ld" style="background:#B5D4F4"></span>Starting cash</span>
+      <span><span class="ld" style="background:#EF9F27"></span>Committed (not yet paid)</span>
+      <span><span class="ld" style="background:#F7D08A"></span>Budgeted (not yet ordered)</span>
+      <span><span class="ld" style="background:#C0DD97"></span>Projected remaining</span>
+      <span><span class="ld" style="background:rgba(180,180,180,0.4);border:1px dashed #999"></span>Kassekredit (emergency only)</span>
+    </div>
+    <div style="position:relative;width:100%;height:220px;margin-bottom:8px;">
+      <canvas id="cashChart"></canvas>
     </div>
     <div class="card">
       <table class="rt" id="ov-table"></table>
@@ -304,7 +315,7 @@ Travis commission retained</div>
     </div>
   </section>
   <footer>
-    <p>Built from 2025 SPIIR transaction data. Income based on salary + commission average + child benefit — crypto sales and one-off transfers excluded. Renovation budget 65,000/yr from 2022–2025 historical average. Tax settlement (140k) excluded as non-recurring. Mortgage after-tax applies 33% rentefradrag (negative kapitalindkomst under 50,000 DKK threshold). Car: ID. Buzz Life, lease from April 2026. Lønsikring: Business Danmark, 485/mo from April 2026, 10,000/mo payout. Cash reserves 146,000 DKK after upfront car costs.</p>
+    <p>Built from 2025 SPIIR transaction data. Income based on salary + commission average + child benefit — crypto sales and one-off transfers excluded. Renovation budget 65,000/yr from 2022–2025 historical average. Tax settlement (140k) excluded as non-recurring. Mortgage after-tax applies 33% rentefradrag (negative kapitalindkomst under 50,000 DKK threshold). Car: ID. Buzz Style, lease from April 2026. Lønsikring: Business Danmark, 485/mo from April 2026, 10,000/mo payout. Current cash 200,000 DKK; projected 146,000 DKK after committed/budgeted car costs (down payment, wallbox, winter tires).</p>
     <p style="margin-top:6px;">Last updated: March 2026</p>
   </footer>
 </div>
@@ -335,7 +346,7 @@ const fmtK = n => Math.round(n/1000) + 'k';
 const INCOME      = 1_191_048;
 const RENO        = 65_000;
 const CAR_OLD_MO  = 5_853;   // Peugeot 5008 Jan–Mar 2026
-const CAR_MO      = 7_537;   // ID. Buzz Life: lease 6,660 + electricity 800 + road tax 77
+const CAR_MO      = 7_537;   // ID. Buzz Style: lease 6,660 + electricity 800 + road tax 77
 const CAR_START   = 4;       // ID. Buzz from April (month 4)
 const PRINCIPAL   = 1_884_000;
 const BIDRAGSSATS = 0.0074;
@@ -382,6 +393,7 @@ const CUTS = [
 ];
 let selJL = 'travis';
 let mainChart = null;
+let cashChart = null;
 // ── MORTGAGE HELPERS ──────────────────────────────────────────────────
 function getMortRatePct() { return +document.getElementById('rate-slider').value; }
 function getMortGrossMo() {
@@ -456,7 +468,7 @@ function renderOverview() {
     <tr class="tr"><td>Expenses</td><td></td><td></td><td></td><td></td></tr>
     <tr class="sr"><td>Recurring base (leisure, groceries, basics, utilities, travel)</td><td>${fmt(BASE_TOTAL)}</td><td>${fmt(Math.round(BASE_TOTAL/12))}</td><td>${fmt(BASE_TOTAL)}</td><td>${fmt(Math.round(BASE_TOTAL/12))}</td></tr>
     <tr class="sr"><td>Home maintenance budget</td><td>${fmt(RENO)}</td><td>${fmt(Math.round(RENO/12))}</td><td>${fmt(RENO)}</td><td>${fmt(Math.round(RENO/12))}</td></tr>
-    <tr class="sr"><td>Car costs (ID. Buzz Life from Apr)</td><td>${fmt(car26)}</td><td>${fmt(Math.round(car26/12))}</td><td>${fmt(car27)}</td><td>${fmt(Math.round(car27/12))}</td></tr>
+    <tr class="sr"><td>Car costs (ID. Buzz Style from Apr)</td><td>${fmt(car26)}</td><td>${fmt(Math.round(car26/12))}</td><td>${fmt(car27)}</td><td>${fmt(Math.round(car27/12))}</td></tr>
     <tr class="sr"><td>Mortgage (after-tax, F5 interest-only from Jul)</td><td>${fmt(mort26)}</td><td>${fmt(Math.round(mort26/12))}</td><td>${fmt(mort27)}</td><td>${fmt(Math.round(mort27/12))}</td></tr>
     <tr class="sr"><td>Lønsikring (Business Danmark, from Apr)</td><td>${fmt(lons26)}</td><td>${fmt(Math.round(lons26/12))}</td><td>${fmt(lons27)}</td><td>${fmt(Math.round(lons27/12))}</td></tr>
     <tr class="sr hi"><td>Nordnet monthly investment</td><td>${fmt(nordnetAnnual)}</td><td>${fmt(nordnetMo)}</td><td>${fmt(nordnetAnnual)}</td><td>${fmt(nordnetMo)}</td></tr>
@@ -467,60 +479,176 @@ function renderOverview() {
   `;
   document.getElementById('ov-footnote').innerHTML =
     `Income: salary (96,082/mo avg) + commission (7,948/mo avg) + child benefit (2,522/mo). Renovation 65,000/yr. ` +
-    `Car: Peugeot Jan–Mar, ID. Buzz Life Apr–Dec 2026. Mortgage refinance Jul 2026 at ${ratePct.toFixed(2)}% + 0.74% bidragssats. Lønsikring from Apr 2026.`;
-  // Chart
-  const labels = ["'26 inc","'26 base","'26 reno","'26 car","'26 mort","'26 lons","'26 save","'26 free","'27 inc","'27 base","'27 reno","'27 car","'27 mort","'27 lons","'27 save","'27 free"];
-  const data   = [INCOME,BASE_TOTAL,RENO,car26,mort26,lons26,nordnetAnnual,net26,INCOME,BASE_TOTAL,RENO,car27,mort27,lons27,nordnetAnnual,net27];
-  const colors = ['#B5D4F4','#85B7EB','#9FE1CB','#FAC775','#F7C1C1','#E8A5D0','#AFA9EC',net26>=0?'#C0DD97':'#F09595','#B5D4F4','#85B7EB','#9FE1CB','#FAC775','#F7C1C1','#E8A5D0','#AFA9EC',net27>=0?'#C0DD97':'#F09595'];
-  window._chartData = { labels, data };
-  const ctx = document.getElementById('mainChart');
+    `Car: Peugeot Jan–Mar, ID. Buzz Style Apr–Dec 2026. Mortgage refinance Jul 2026 at ${ratePct.toFixed(2)}% + 0.74% bidragssats. Lønsikring from Apr 2026.`;
+
+  // ── CHART 1: Monthly waterfall (2027 full year) ──────────────────
+  // Group costs into three types:
+  // Fixed: mortgage + basic expenses + utilities + building insurance
+  const fixedMo      = Math.round(mortNetMo + (142_745 + 53_004 + 28_668) / 12);
+  // Semi-fixed: car + lønsikring + household/groceries
+  const semifixedMo  = Math.round(CAR_MO + LONSIKRING + 185_734 / 12);
+  // Discretionary: leisure + travel + garden + other + nordnet + renovation
+  const discMo       = Math.round((309_810 + 221_545 + 2_268 + 2_784) / 12) + nordnetMo + Math.round(RENO / 12);
+  const incomeMo     = Math.round(INCOME / 12);
+  const surplusMo    = incomeMo - fixedMo - semifixedMo - discMo;
+
+  // Waterfall: each bar is [bottom, top]. Steps consume income from the top down.
+  const wfLabels  = ['Income', 'Fixed costs', 'Semi-fixed', 'Discretionary', 'Surplus'];
+  const wfRunning = [incomeMo, incomeMo - fixedMo, incomeMo - fixedMo - semifixedMo, incomeMo - fixedMo - semifixedMo - discMo];
+  const wfDataClean = [
+    [0, incomeMo],
+    [wfRunning[1], wfRunning[0]],
+    [wfRunning[2], wfRunning[1]],
+    [wfRunning[3], wfRunning[2]],
+    surplusMo >= 0 ? [0, surplusMo] : [surplusMo, 0]
+  ];
+  const wfColors = ['#B5D4F4', '#5B8DB8', '#E8B06A', '#AFA9EC', surplusMo >= 0 ? '#C0DD97' : '#F09595'];
+  const wfSubtitles = [
+    `${fmt(incomeMo)} kr/mo`,
+    `Mortgage + basic + utilities + insurance: ${fmt(fixedMo)} kr/mo`,
+    `Car + lønsikring + groceries: ${fmt(semifixedMo)} kr/mo`,
+    `Leisure + travel + Nordnet + renovation: ${fmt(discMo)} kr/mo`,
+    `${surplusMo >= 0 ? '+' : ''}${fmt(surplusMo)} kr/mo`
+  ];
+
+  const textColor = getComputedStyle(document.body).getPropertyValue('--text2').trim() || '#888';
+  const ctx1 = document.getElementById('waterfallChart');
   if (mainChart) { mainChart.destroy(); mainChart = null; }
-  mainChart = new Chart(ctx, {
+  mainChart = new Chart(ctx1, {
     type: 'bar',
-    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
+    data: { labels: wfLabels, datasets: [{ data: wfDataClean, backgroundColor: wfColors, borderWidth: 0, borderRadius: 3 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { enabled: false } },
-      scales: {
-        y: { ticks: { callback: v => fmtK(v)+'k', color: getComputedStyle(document.body).getPropertyValue('--text2') || '#888' } },
-        x: { ticks: { autoSkip: false, maxRotation: 40, font: { size: 10 } } }
-      },
-      onHover: (evt, elements) => {
-        if (elements.length > 0) {
-          showTooltip(evt, elements[0].index, labels, data);
-          ctx.style.cursor = (elements[0].index===1||elements[0].index===8) ? 'pointer' : 'default';
-        } else {
-          hideTooltip();
-          ctx.style.cursor = 'default';
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: (items) => wfLabels[items[0].dataIndex],
+            label: (item) => {
+              const [lo, hi] = item.raw;
+              const val = Math.abs(hi - lo);
+              return `  ${fmt(val)} kr/mo`;
+            },
+            afterLabel: (item) => `  ${wfSubtitles[item.dataIndex]}`
+          }
         }
+      },
+      scales: {
+        y: {
+          ticks: { callback: v => fmt(v), color: textColor, font: { size: 11 } },
+          grid: { color: 'rgba(128,128,128,0.12)' }
+        },
+        x: { ticks: { color: textColor, font: { size: 12 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  renderCashChart();
+}
+// ── CHART 2: Cash reserves waterfall ────────────────────────────────
+function renderCashChart() {
+  // Static — does not depend on rate slider
+  const CASH_START  = 200_000;
+  const DOWN        = 27_000;
+  const WALLBOX     = 7_000;
+  const WINTER      = 20_000;
+  const CASH_END    = CASH_START - DOWN - WALLBOX - WINTER; // 146,000
+  const KASSEKREDIT = 400_000;
+
+  const labels   = ['Starting\ncash', '−Down\npayment', '−Wallbox', '−Winter\ntires', 'Projected\ncash', 'Kassekredit\n(emergency)'];
+  const dataVals = [
+    [0, CASH_START],                          // opening bar
+    [CASH_START - DOWN,     CASH_START],      // committed step down
+    [CASH_START - DOWN - WALLBOX, CASH_START - DOWN],  // committed step down
+    [CASH_END,  CASH_START - DOWN - WALLBOX], // budgeted step down
+    [0, CASH_END],                            // closing bar (projected)
+    [0, KASSEKREDIT]                          // ghost reference bar
+  ];
+  const colors = [
+    '#B5D4F4',
+    '#EF9F27',
+    '#EF9F27',
+    '#F7D08A',
+    '#C0DD97',
+    'rgba(180,180,180,0.18)'
+  ];
+  const borderColors = ['transparent','transparent','transparent','transparent','transparent','rgba(150,150,150,0.6)'];
+  const borderWidths = [0, 0, 0, 0, 0, 1];
+  const borderDash = [false, false, false, false, false, true];
+
+  const tooltipLabels = [
+    `Starting cash: 200,000 kr`,
+    `Down payment: −${fmt(DOWN)} kr (committed, not yet paid)`,
+    `Wallbox: −${fmt(WALLBOX)} kr (committed, not yet paid)`,
+    `Winter tires: −${fmt(WINTER)} kr (budgeted, not yet ordered)`,
+    `Projected remaining: ${fmt(CASH_END)} kr`,
+    `Kassekredit: ${fmt(KASSEKREDIT)} kr — emergency liquidity, not part of cash position`
+  ];
+
+  const textColor = getComputedStyle(document.body).getPropertyValue('--text2').trim() || '#888';
+  const ctx2 = document.getElementById('cashChart');
+  if (cashChart) { cashChart.destroy(); cashChart = null; }
+
+  // Custom plugin to draw dashed border on the kassekredit bar
+  const dashedBarPlugin = {
+    id: 'dashedBar',
+    afterDatasetsDraw(chart) {
+      const { ctx, chartArea } = chart;
+      const meta = chart.getDatasetMeta(0);
+      const lastBar = meta.data[5]; // kassekredit bar index
+      if (!lastBar) return;
+      const { x, width } = lastBar;
+      const top = lastBar.base - (lastBar.base - lastBar.y); // bar top y pixel
+      const bot = lastBar.base;
+      ctx.save();
+      ctx.strokeStyle = 'rgba(150,150,150,0.7)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 3]);
+      ctx.strokeRect(x - width / 2, top, width, bot - top);
+      // Label at top of bar
+      ctx.fillStyle = textColor;
+      ctx.font = '10px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('400k kassekredit', x, top - 4);
+      ctx.restore();
+    }
+  };
+
+  cashChart = new Chart(ctx2, {
+    type: 'bar',
+    plugins: [dashedBarPlugin],
+    data: {
+      labels,
+      datasets: [{
+        data: dataVals,
+        backgroundColor: colors,
+        borderColor: borderColors,
+        borderWidth: borderWidths,
+        borderRadius: 3
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: () => '',
+            label: (item) => `  ${tooltipLabels[item.dataIndex]}`
+          }
+        }
+      },
+      scales: {
+        y: {
+          max: 430_000,
+          ticks: { callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v, color: textColor, font: { size: 11 }, stepSize: 50000 },
+          grid: { color: 'rgba(128,128,128,0.12)' }
+        },
+        x: { ticks: { color: textColor, font: { size: 11 } }, grid: { display: false } }
       }
     }
   });
 }
-function showTooltip(evt, idx, labels, data) {
-  const tt = document.getElementById('tooltip');
-  // Base bars are at index 1 (2026) and 9 (2027) — 8 bars per year now
-  const isBase = idx===1||idx===9;
-  const year = idx<=7 ? '2026' : '2027';
-  document.getElementById('tt-title').textContent = isBase ? `Recurring base — ${year}` : labels[idx].replace("'26 ","2026 ").replace("'27 ","2027 ");
-  if (isBase) {
-    document.getElementById('tt-body').innerHTML =
-      BASE_CATS.map(c=>`<div class="tt-row"><span class="tt-cat"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${c.color};margin-right:4px;"></span>${c.name}</span><span class="tt-val">${fmt(c.val)}</span><span class="tt-pct">${Math.round(c.val/BASE_TOTAL*100)}%</span></div>`).join('') +
-      `<div class="tt-row tt-total"><span class="tt-cat">Total</span><span class="tt-val">${fmt(BASE_TOTAL)}</span><span class="tt-pct">100%</span></div>`;
-  } else {
-    const val = data[idx];
-    document.getElementById('tt-body').innerHTML = `
-      <div class="tt-row"><span class="tt-cat">Annual</span><span class="tt-val">${fmt(val)} kr</span></div>
-      <div class="tt-row"><span class="tt-cat">Monthly avg</span><span class="tt-val">${fmt(Math.round(val/12))} kr</span></div>`;
-  }
-  const x = evt.native.clientX, y = evt.native.clientY;
-  const ttW = 220;
-  tt.style.left = (x+ttW+20>window.innerWidth ? x-ttW-10 : x+12) + 'px';
-  tt.style.top = (y-10) + 'px';
-  tt.style.display = 'block';
-}
-function hideTooltip() { document.getElementById('tooltip').style.display='none'; }
-document.addEventListener('mousemove', e => { if(!document.getElementById('mainChart').matches(':hover')) hideTooltip(); });
 // ── JOB LOSS ─────────────────────────────────────────────────────────
 function renderJL() {
   const nordnetJL = +document.getElementById('jl-nordnet').value || 0;
