@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /b/
+Disallow: /pokeraften/
 Sitemap: https://travis-campbell.com/sitemap-index.xml
