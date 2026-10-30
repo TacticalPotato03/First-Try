@@ -152,6 +152,47 @@
   ol.guests li.fresh::before{background:var(--blue)}
   .empty,.loading{color:var(--ink-soft);font-size:15px;margin:0}
 
+  /* Onskeliste (tilfoejet) */
+  .wishes-surprise{
+    border:1px solid var(--orange);
+    border-left:4px solid var(--orange);
+    padding:18px 18px 16px;
+    margin:0 0 26px;
+    background:rgba(232,84,31,.06);
+  }
+  .wishes-surprise h3{
+    font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;
+    text-transform:uppercase;margin:0 0 6px;color:var(--orange);
+  }
+  .wishes-surprise p{margin:0 0 8px;font-size:16px}
+  .wishes-surprise p:last-child{margin-bottom:0}
+  ol.wish-list{list-style:none;margin:0;padding:0;counter-reset:wish}
+  ol.wish-list > li{
+    counter-increment:wish;
+    padding:20px 0;
+    border-bottom:1px solid var(--rule);
+  }
+  ol.wish-list > li:last-child{border-bottom:0}
+  ol.wish-list h3{
+    font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;
+    text-transform:uppercase;letter-spacing:.01em;margin:0 0 6px;
+  }
+  ol.wish-list h3::before{
+    content:counter(wish) ".";
+    color:var(--orange);margin-right:8px;
+  }
+  ol.wish-list p{margin:0 0 10px}
+  .wish-ideas{font-size:15px;color:var(--ink-soft);margin:0}
+  .wish-ideas a{
+    color:var(--ink);font-weight:700;
+    text-decoration:underline;text-decoration-color:var(--orange);
+    text-decoration-thickness:2px;text-underline-offset:3px;
+  }
+  .wish-ideas a:hover{color:var(--orange)}
+  .wish-ideas a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+  .wish-size{font-size:15px;font-weight:700;color:var(--ink);margin:0 0 .5rem}
+
   @media (max-width:520px){ ol.guests{columns:1} }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -218,6 +259,60 @@
     <p class="loading" id="loading">Henter listen...</p>
     <p class="empty" id="empty" hidden>Ingen har svaret endnu. Vær den første.</p>
     <ol class="guests" id="guests"></ol>
+  </section>
+
+  <section id="wishes-section">
+    <h2>Ønskeliste</h2>
+    <p class="lead">Helt frivilligt. Alt herunder er kun inspiration, ikke en indkøbsliste. Jeg er 44, jeg har det meste, og det her er mest for sjov, så ingen panik.</p>
+
+    <div class="wishes-surprise">
+      <h3>Jeg er åben for overraskelser</h3>
+      <p>Finder du noget, du synes er helt vildt fantastisk, og har du energien til at lede efter det, så slår det ethvert link her. Overrask mig. Jeg lover at se begejstret ud, selv hvis jeg ikke fatter, hvad det er.</p>
+      <p>Gerne uden alkohol, så jeg ikke sidder tilbage med en kasse flasker, som jeg selv skal drikke op efter festen.</p>
+    </div>
+
+    <ol class="wish-list">
+      <li>
+        <h3>Noget højlydt til pisterne</h3>
+        <p>Målet er simpelt: I motherfuckers skal kunne se mig komme. Jeg vil kunne ses fra rummet, og ingen på pisten skal kunne sige, at de ikke blev advaret. En heldragt er fantastisk, men fede bukser alene dur også. Jeg har allerede en blå jakke, så en helt umatchende kombination er et plus: grønne bukser eller noget andet, der skriger. Jo mere det ligner et færdselsuheld, jo bedre. Brugt er meget velkommen.</p>
+        <p class="wish-size">Størrelse: bukser L, jakke og heldragt XL.</p>
+        <p class="wish-ideas">Inspiration: <a href="https://www.dba.dk/17539284" target="_blank" rel="noopener">en vintage heldragt</a> (er sikkert solgt nu), eller gå på jagt på Vinted efter <a href="https://www.vinted.dk/catalog?search_text=skidragt%20heldragt%20xl" target="_blank" rel="noopener">heldragter</a> og <a href="https://www.vinted.dk/catalog?search_text=skibukser%20gr%C3%B8n%20herre%20L" target="_blank" rel="noopener">bukser</a>.</p>
+      </li>
+      <li>
+        <h3>Sandaler</h3>
+        <p>Et par ordentlige Birkenstock i læder, når jeg vil ligne en voksen mand, og en plastikversion til saunaen, hvor jeg ikke vil.</p>
+        <p class="wish-size">Størrelse: 46.</p>
+        <p class="wish-ideas">Inspiration: <a href="https://www.birkenstock.com/dk/herrer/sandaler/" target="_blank" rel="noopener">Birkenstock Danmark</a>.</p>
+      </li>
+      <li>
+        <h3>En foldbar sommerhat</h3>
+        <p>En hat, der kan klemmes ned i en taske og komme ud igen med værdigheden intakt. Det kan jeg ikke selv sige om mig efter en lang dag.</p>
+        <p class="wish-size">Størrelse: 60.</p>
+        <p class="wish-ideas">Inspiration: <a href="https://www.amazon.de/-/en/Mayser-Samuel-Livorno-Packable-grey-beige/dp/B0FZKXVZ3B" target="_blank" rel="noopener">Mayser Samuel Livorno</a>.</p>
+      </li>
+      <li>
+        <h3>Hættetrøje eller en jakke med skæg</h3>
+        <p>En rigtig god hættetrøje med så lidt branding som muligt, så jeg ikke går rundt som en gående reklamesøjle. Eller en jakke med lidt maskulin karakter: tænk skovhugger, cowboy eller en mand, der kan tænde bål uden tændstikker.</p>
+        <p class="wish-size">Størrelse: XL.</p>
+        <p class="wish-ideas">Inspiration: <a href="https://www.levi.com/DK/da_DK/t%C3%B8j/herrer/sweatre-sweatshirts/new-original-zip-up-hoodie/p/345840050" target="_blank" rel="noopener">Levi's zip-up hættetrøje</a> eller <a href="https://www.levi.com/DK/da_DK/t%C3%B8j/herrer/jakker-frakker/deck-hoodie-sherpa-jacket/p/007S70000" target="_blank" rel="noopener">Levi's Deck-jakke</a>. Den sidste er en denimjakke med fåreskindsfor, altså cowboy med hjerte, men ikke en vinterfrakke.</p>
+      </li>
+      <li>
+        <h3>En vinterfrakke, der både er lun og sej</h3>
+        <p>En rigtig varm frakke, der faktisk virker i en dansk januar, men som ser fed ud. Tænk piratkaptajn eller cirkusdirektør: jeg vil gerne kunne råbe "Mine damer og herrer!" i den og stadig ikke fryse. Gerne lang, gerne med en stor krave (pels må meget gerne være med).</p>
+        <p class="wish-size">Størrelse: XL.</p>
+        <p class="wish-ideas">Gå på jagt på <a href="https://www.vinted.dk/catalog?search_text=shearling%20frakke%20herre%20XL" target="_blank" rel="noopener">Vinted</a> eller <a href="https://www.dba.dk/recommerce/forsale/search?q=shearling%20frakke" target="_blank" rel="noopener">DBA</a>, hvis du vil have et pift.</p>
+      </li>
+      <li>
+        <h3>En saunaoverraskelse</h3>
+        <p>Noget nyttigt eller mærkeligt til saunaen, som jeg slet ikke ved, at jeg har brug for. Jo mere mystisk, jo bedre. Her er ingen links, for I er klogere end internettet.</p>
+      </li>
+      <li>
+        <h3>Drengeaften</h3>
+        <p>En aften ude til en rockkoncert, MMA eller noget andet spændende, jeg ikke kan forestille mig endnu. En billet eller et løfte er begge helt fint. Jeg medbringer begejstringen, I medbringer billetterne.</p>
+      </li>
+    </ol>
+
+    <p class="en">In English: everything above is just inspiration, nothing is required. If you find something truly fantastic, it beats any link here. Sizes are listed on each item. I'm open to surprises, preferably no alcohol, and on the slopes I'd like to be visible from space.</p>
   </section>
 
 </div>
